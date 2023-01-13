@@ -2,8 +2,8 @@
 
 
 :root {
-    --main-color: #0A2558;
-    --color-dark: #081D45;
+    --main-color: rgba(59, 37, 20, 0.6);
+    --color-dark: rgb(55, 45, 9);
     --back-color: #F4F5F5;
     --header-back-color: #fff;
 }
@@ -206,7 +206,7 @@ a {
 
 .btn {
     color: #fff;
-    background: #0A2558;
+    background: rgba(59, 37, 20, 0.6);
     padding: 0.25em 0.75em;
     font-size: 1em;
     font-weight: 400;

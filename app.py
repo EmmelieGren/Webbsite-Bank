@@ -14,9 +14,7 @@ migrate = Migrate(app,db)
 
 @app.route("/")
 def startpage():
-    return "hej"
-    # trendingCategories = Category.query.all()
-    # return render_template("index.html", trendingCategories=trendingCategories)
+    return render_template("index.html")
 
 @app.route("/category/<id>")
 def category(id):
@@ -28,6 +26,8 @@ def category(id):
 def customers():
     customers = Customer.query.all()
     return render_template("customers.html", customers = customers)
+
+
 
 @app.route("/customer/<id>")
 def customer(id):
@@ -41,4 +41,3 @@ if __name__  == "__main__":
     
         seedData(db)
         app.run()
-
