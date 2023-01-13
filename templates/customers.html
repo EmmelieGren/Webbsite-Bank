@@ -5,29 +5,37 @@ Alla kunder
 {% endblock %}
 
 {% block content %}
+
+
 <h1>MLI</h1>
 <h4>BANK</h4>
 <br></br>
 <h4>Customers</h4>
 <br></br>
-    <table>
-    {% for c in customers  %}
-        <tr>
-            <td>
-                {{ c.GivenName }}
-            </td>
-            <td>
-                {{ c.Surname }}
-            </td>
-            <td>
-                {{ c.City }}
-            </td>
-            <td>
-                <a href="/customer/{{ c.Id }}" class="btn">More info</a>
-            </td>
-        </tr>
-    
-    {% endfor %}
+<table class="table">
+    <thead>
+        <th>Name
+            <i class='bx bxs-chevron-up'></i>              
+            <i class='bx bxs-chevron-down'></i>
+        </th>
+        <th></th>
+        <th>City
+             <i class='bx bxs-chevron-up'></i>
+            <i class='bx bxs-chevron-down'></i>
+
+        </th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for c in customers  %}
+            <tr>
+                <td>{{ c.GivenName }} {{ c.Surname }}</td> 
+                <td></td>
+                <td>{{ c.City }}</td>
+                <td><a href="/customer/{{ c.Id }}" class="btn">More info</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>  
 </table>
 {% endblock %}     
 
