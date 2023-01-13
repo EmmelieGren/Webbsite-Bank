@@ -23,10 +23,9 @@ def category(id):
     # return render_template("category.html", products=products)
 
 @app.route("/customers")
-def customers():
+def customersPage():
     customers = Customer.query.all()
     return render_template("customers.html", customers = customers)
-
 
 
 @app.route("/customer/<id>")
