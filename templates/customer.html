@@ -9,6 +9,7 @@ Kundsida {{ customer.Surname }}, {{ customer.GivenName }}
 {% block content %}
 
 <h1>{{ customer.Surname }}, {{ customer.GivenName }}</h1>
-<p>Kunden bor i {{ customer.City }}.</p>
-
+<p>City -{{ customer.City }}.</p>
+<p>Telephone: +{{ customer.TelephoneCountryCode }}  {{ customer.Telephone }}</p>
 {% endblock %}    
+
