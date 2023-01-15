@@ -12,29 +12,65 @@ Alla kunder
 <br></br>
 <h4>Customers</h4>
 <br></br>
+
+<form method="get">
+    <input type="text" placeholder="Search" name="q"value="{{q}}">
+    <input class="btn" type="submit" value="Search">
+</form>
+
+Page {{page}} of {{pages}}
+
 <table class="table">
     <thead>
         <th>Name
-            <i class='bx bxs-chevron-up'></i>              
-            <i class='bx bxs-chevron-down'></i>
+            <a href="/customers?sortColumn=name&sortOrder=asc&q={{q}}">
+                <i class='bx bxs-chevron-up'></i> 
+            </a>
+            <a href="/customers?sortColumn=name&sortOrder=desc&q={{q}}">             
+                <i class='bx bxs-chevron-down'></i>
+            </a>
         </th>
         <th></th>
         <th>City
-             <i class='bx bxs-chevron-up'></i>
-            <i class='bx bxs-chevron-down'></i>
+            <a href="/customers?sortColumn=city&sortOrder=asc&q={{q}}">
+                <i class='bx bxs-chevron-up'></i>
+            </a>
+            <a href="/customers?sortColumn=city&sortOrder=desc&q={{q}}">
+                <i class='bx bxs-chevron-down'></i>
+            </a>
 
         </th>
         <th></th>
     </thead>
     <tbody>
-        {% for c in customers  %}
+        {% for c in Customers  %}
             <tr>
-                <td>{{ c.GivenName }} {{ c.Surname }}</td> 
+                <td>{{ c.Surname }}.{{ c.GivenName }}</td> 
                 <td></td>
                 <td>{{ c.City }}</td>
                 <td><a href="/customer/{{ c.Id }}" class="btn">More info</a></td>
             </tr>
         {% endfor %}
+        <tfoot>
+            <tr>
+                <td>
+                    {%if has_prev%}
+                    <a class="btn" href="/customers?page={{page -1}}&sortColumn={{ sortColumn }}&sortOrder={{ sortOrder }}&q={{ q }}">
+                        Prev
+                    </a>
+                    {%endif%}
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    {%if has_next%}
+                    <a class="btn" href="/customers?page={{page +1}}&sortColumn={{ sortColumn }}&sortOrder={{ sortOrder }}&q={{ q }}">
+                        Next
+                    </a>
+                    {%endif%}
+                </td>
+            </tr>
+        </tfoot>
     </tbody>  
 </table>
 {% endblock %}     

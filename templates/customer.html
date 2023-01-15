@@ -2,14 +2,14 @@
 
 {% block title %}
 
-Kundsida {{ customer.Surname }}, {{ customer.GivenName }}
+Kundsida {{ customer.GivenName }} {{ customer.Surname }}
 
 {% endblock %}
 
 {% block content %}
 
-<h1>{{ customer.Surname }}, {{ customer.GivenName }}</h1>
-<p>City -{{ customer.City }}.</p>
+<h1>{{ customer.GivenName }} {{ customer.Surname }}</h1>
+<p>City: {{ customer.City }}.</p>
 <p>Telephone: +{{ customer.TelephoneCountryCode }}  {{ customer.Telephone }}</p>
 {% endblock %}    
 
