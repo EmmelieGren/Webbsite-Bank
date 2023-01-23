@@ -15,22 +15,33 @@
     <div class="grid-container">
         <header class="header">
             <div class="header__avatar">
-                
+                {% block head %}
+                {% endblock %}
 
             </div>
           </header>
           <aside class="sidenav">
-              <div class="sidenav__logo">
-                <i class="bx bxl-c-plus-plus"></i>
-                <span class="sidenav__logo_name">SHAdmin</span>
-              </div>
+
+              <ul class="sidenav__list">
+                <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
+                    <a href="/">
+                        <i class="bx bx-bug"></i>
+                        Homepage</a>
+                </li>
+              </ul>
               <ul class="sidenav__list">
                 <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
                     <a href="/customers">
                         <i class="bx bx-bug"></i>
                         List customers</a>
                 </li>
-
+              </ul>
+              <ul class="sidenav__list">
+                <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
+                    <a href="/customer/76">
+                        <i class="bx bx-bug"></i>
+                        Kund 76</a>  
+                </li>
               </ul>
           </aside>        
         <main class="main">
@@ -39,8 +50,6 @@
         </main>
         <footer class="footer">
             {% block footer %}
-                <div class="footer__copyright">&copy; 2021 Systementor AB</div>
-                <div class="footer__signature">Made with love by Stefan Holmberg</div>
             {% endblock %}
         </footer>      
     </div>

@@ -4,12 +4,13 @@
 Alla kunder
 {% endblock %}
 
-{% block content %}
-
-
+{% block head %}
 <h1>MLI</h1>
 <h4>BANK</h4>
-<br></br>
+{% endblock %}
+
+{% block content %}
+
 <h4>Customers</h4>
 <br></br>
 
@@ -19,6 +20,7 @@ Alla kunder
 </form>
 
 Page {{page}} of {{pages}}
+
 
 <table class="table">
     <thead>
@@ -44,12 +46,12 @@ Page {{page}} of {{pages}}
     </thead>
     <tbody>
         {% for c in Customers  %}
-            <tr>
-                <td>{{ c.Surname }}.{{ c.GivenName }}</td> 
-                <td></td>
-                <td>{{ c.City }}</td>
-                <td><a href="/customer/{{ c.Id }}" class="btn">More info</a></td>
-            </tr>
+        <tr>
+            <td>{{ c.Surname }}.{{ c.GivenName }}</td> 
+            <td></td>
+            <td>{{ c.City }}</td>
+            <td><a href="../customer/{{ c.Id }}" class="btn">More info</a></td>
+        </tr>
         {% endfor %}
         <tfoot>
             <tr>

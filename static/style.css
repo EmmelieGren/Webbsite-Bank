@@ -265,28 +265,6 @@ small {
 
 
 
-.field-validation-error {
-    width: 100%;
-    margin-top: .25rem;
-    font-size: 80%;
-    color: #dc3545;
-}
-
-
 td i {
     font-size: 30px;
 }
-
-
-
-#playlist tbody tr.even td {
-    background-color: #eee;
-  }
-  #playlist tbody tr.odd  td {
-    background-color: #fff;
-  }
-
-
-  .help-block{
-      color:red;
-  }
