@@ -8,7 +8,7 @@
 :root {
     --main-color: rgba(59, 37, 20, 0.6);
     --color-dark: rgb(55, 45, 9);
-    --back-color: #F4F5F5;
+    --back-color: rgba(161, 134, 114, 0.6);
     --header-back-color: #fff;
 }
 
@@ -39,13 +39,12 @@ a {
         "sidenav footer";
     height: 100vh;
 }
-/* Give every child element its grid name */
 .header {
     grid-area: header;
 }
 
 .sidenav {
-    display: flex; /* Will be hidden on mobile */
+    display: flex; 
     flex-direction: column;
     grid-area: sidenav;
     background-color: var(--main-color);
@@ -61,9 +60,6 @@ a {
     grid-area: footer;
     background-color: var(--header-back-color);
 }
-
-
-
 
 .header, .footer {
     display: flex;
@@ -88,44 +84,9 @@ a {
     transition: all 0.5s ease;
 }
 
-
-.header__search {
-    position: relative;
-    height: 50px;
-    max-width: 550px;
-    width: 100%;
-    margin: 0 20px;
-}
-
-    .header__search input {
-        height: 100%;
-        width: 100%;
-        outline: none;
-        background: #F5F6FA;
-        border: 2px solid #EFEEF1;
-        border-radius: 6px;
-        font-size: 18px;
-        padding: 0 15px;
-    }
-
-    .header__search .bx-search {
-        position: absolute;
-        height: 40px;
-        width: 40px;
-        background: #2697FF;
-        right: 5px;
-        top: 50%;
-        transform: translateY(-50%);
-        border-radius: 4px;
-        line-height: 40px;
-        text-align: center;
-        color: #fff;
-        font-size: 22px;
-    }
-
 .sidenav__list {
     padding: 0;
-    margin-top: 35px;
+    margin-top: 20px;
     list-style-type: none;
 }
 
@@ -170,8 +131,8 @@ a {
 
 
 .sidenav__list-item a {
-    font-size: 15px;
-    line-height: 22px;
+    font-size: 18px;
+    line-height: 20px;
     color: #fff;
     display: flex;
     align-items: center;
@@ -189,10 +150,6 @@ a {
     padding-right: 20px;
 }
 
-.card h1 {
-    border-bottom: 1px solid #ced4da;
-    margin-bottom: 30px;
-}
 
 .table {
     margin-bottom: 30px;
@@ -221,29 +178,6 @@ a {
 }
 
 
-.form-group, .form-check {
-    margin-top: 18px;
-    margin-bottom: 18px;
-}
-
-
-
-
-.card {
-    width: 80%;
-    background: #fff;
-    padding: 20px 30px;
-    margin: 0 20px;
-    border-radius: 12px;
-    box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
-}
-
-
-label {
-    display: inline-block;
-    margin-bottom: 0.5rem;
-}
-
 .form-control {
     display: block;
     width: 100%;
@@ -258,13 +192,4 @@ label {
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-small {
-    font-size: 80%;
-    font-weight: 400;
-}
 
-
-
-td i {
-    font-size: 30px;
-}
