@@ -1,15 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@200;300;400;500;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Trebuchet:wght@200;300;400;500;600;700&display=swap');
 
 
 
 :root {
     --main-color: rgba(59, 37, 20, 0.6);
     --color-dark: rgb(55, 45, 9);
-    --back-color: rgba(161, 134, 114, 0.6);
-    --header-back-color: #fff;
+    --back-color: rgb(248, 240, 240);
+    --header-back-color:rgba(161, 134, 114, 0.6);
 }
 
 
@@ -17,8 +15,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* font-family: 'Poppins', sans-serif; */
-    font-family: 'Playfair', 'Display';
+    font-family: 'Trebuchet',  sans-serif;
 }
 
 li {
@@ -32,16 +29,17 @@ a {
 .grid-container {
     display: grid;
     grid-template-columns: 240px 1fr;
-    grid-template-rows: 50px 1fr 50px;
+    grid-template-rows: 0px 1fr 50px;
     grid-template-areas:
         "sidenav header"
         "sidenav main"
         "sidenav footer";
     height: 100vh;
 }
-.header {
+/* .header {
     grid-area: header;
-}
+    background-color: var(--header-back-color);
+} */
 
 .sidenav {
     display: flex; 
@@ -61,27 +59,26 @@ a {
     background-color: var(--header-back-color);
 }
 
-.header, .footer {
+/* .header, .footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: var(--header-back-color);
-}
+} */
 
 
 
 .header {
     display: flex;
-    justify-content: space-between;
-    background: #fff;
-    display: flex;
+    /* justify-content: space-between; */
+    background-color: var(--header-back-color);
     height: 80px;
     align-items: center;
     z-index: 100;
     padding: 10px 20px;
     margin-bottom: 20px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s ease;
+    /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease; */
 }
 
 .sidenav__list {
@@ -145,7 +142,7 @@ a {
 }
 
 .main {
-    padding-top: 40px;
+    padding-top: 90px;
     padding-left: 20px;
     padding-right: 20px;
 }
