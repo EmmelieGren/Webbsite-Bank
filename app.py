@@ -16,6 +16,10 @@ migrate = Migrate(app,db)
 def startpage():
     return render_template("index.html")
 
+@app.route("/contact")
+def contactpage():
+    return render_template("contact.html")
+
 @app.route("/category/<id>")
 def category(id):
     return "hej2"
