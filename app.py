@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, upgrade
 from model import db, seedData, Customer
+from random import randint
+from forms import NewCustomerForm
+import os 
 
- 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:my-secret-pw@localhost/bank'
 db.app = app
@@ -73,7 +76,35 @@ def customersPage():
                             )
 
 
+@app.route("/newcustomer", methods=['GET', 'POST'])
+def newcustomer():
+    form = NewCustomerForm()
+    if form.validate_on_submit():
+        #spara i databas
+        customer = Customer()
+        customer.Name = form.name.data
+        customer.City = form.city.data
+        customer.TelephoneCountryCode = 1
+        customer.Telephone = "321323"
+        db.session.add(customer)
+        db.session.commit()
+        return redirect("/customers" )
+    return render_template("newcustomer.html", formen=form )
 
+@app.route("/editcustomer/<int:id>", methods=['GET', 'POST'])
+def editcustomer(id):
+    customer = Customer.query.filter_by(Id=id).first()
+    form = NewCustomerForm()
+    if form.validate_on_submit():
+        #spara i databas
+        customer.Name = form.name.data
+        customer.City = form.city.data
+        db.session.commit()
+        return redirect("/customers" )
+    if request.method == 'GET':
+        form.name .data = customer.Name
+        form.city.data = customer.City
+    return render_template("editcustomer.html", formen=form )
 
 if __name__  == "__main__":
     with app.app_context():
