@@ -47,7 +47,7 @@ Page {{page}} of {{pages}}
     <tbody>
         {% for c in customers  %}
         <tr>
-            <td>{{ c.Surname }}.{{ c.GivenName }}</td> 
+            <td>{{ c.Surname }} {{ c.GivenName }}</td> 
             <td></td>
             <td>{{ c.City }}</td>
             <td><a href="../customer/{{ c.Id }}" class="btn">More info</a></td>
