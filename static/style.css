@@ -7,7 +7,7 @@
     --main-color: rgba(59, 37, 20, 0.6);
     --color-dark: rgb(55, 45, 9);
     --back-color: rgb(248, 240, 240);
-    --header-back-color:rgba(161, 134, 114, 0.6);
+    --header-back-color:rgba(161, 134, 114, 0.364);
 }
 
 
@@ -36,10 +36,7 @@ a {
         "sidenav footer";
     height: 100vh;
 }
-/* .header {
-    grid-area: header;
-    background-color: var(--header-back-color);
-} */
+
 
 .sidenav {
     display: flex; 
@@ -59,15 +56,6 @@ a {
     background-color: var(--header-back-color);
 }
 
-/* .header, .footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--header-back-color);
-} */
-
-
-
 .header {
     display: flex;
     /* justify-content: space-between; */
@@ -77,8 +65,7 @@ a {
     z-index: 100;
     padding: 10px 20px;
     margin-bottom: 20px;
-    /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s ease; */
+
 }
 
 .sidenav__list {
