@@ -1,0 +1,68 @@
+
+# @app.route("/")
+# def startpage():
+#     return render_template("index.html",activePage="startPage" )
+
+
+
+<table class="table">
+<thead>
+    <th>Id</th>
+    <th>Date</th>
+    <th>Operation</th>
+    <th>Amount</th>
+    <th>Type</th>
+    <th>NewBalance</th>
+</thead>
+<tbody>
+    {%  for t in transaktioner  %}
+    <tr>
+        <td>{{ t.Id }}</td> 
+        <td>{{ t.Date }}</td>
+        <td>{{ t.Operation }}</td>
+        <td>{{ t.Amount }}</td>
+        <td>{{ t.Type }}</td> 
+        <td>{{ t.NewBalance}}</td>
+    </tr>
+    {%  endfor  %}
+</tbody>
+</table>
+
+
+
+befintligtSaldo = allaBefintligaKonton[kontoNummer] 
+
+def insättning(befintligtSaldo):
+    belopp = int(input("Ange belopp du vill sätta in: ")) 
+    befintligtSaldo = befintligtSaldo + belopp
+    allaBefintligaKonton[kontoNummer] = befintligtSaldo
+    print("Insättning gjord!")
+    cprint(f"Ditt nuvarande saldo är: {befintligtSaldo}", "grey", "on_white")
+    print("")
+
+def uttag(befintligtSaldo):
+    belopp = int(input("Ange belopp du vill ta ut från konto : "))
+                    
+    if belopp > befintligtSaldo:
+        print(f"För stort uttag, du har ett saldo på: {befintligtSaldo}") 
+                    
+    elif belopp < befintligtSaldo:
+        befintligtSaldo = befintligtSaldo - belopp
+        allaBefintligaKonton[kontoNummer] = befintligtSaldo
+        print(f"Uttag gjort!") 
+        cprint(f"Ditt nuvarande saldo är: {befintligtSaldo}", "grey", "on_white")
+        print("")def uttag(befintligtSaldo):
+    belopp = int(input("Ange belopp du vill ta ut från konto : "))
+                    
+    if belopp > befintligtSaldo:
+        print(f"För stort uttag, du har ett saldo på: {befintligtSaldo}") 
+                    
+    elif belopp < befintligtSaldo:
+        befintligtSaldo = befintligtSaldo - belopp
+        allaBefintligaKonton[kontoNummer] = befintligtSaldo
+        print(f"Uttag gjort!") 
+        cprint(f"Ditt nuvarande saldo är: {befintligtSaldo}", "grey", "on_white")
+        print("")
+
+
+         app.login_manager.init_app(app)
