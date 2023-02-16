@@ -33,6 +33,18 @@
     </tr>
     {%  endfor  %}
 </tbody>
+<tfoot>
+    <tr>
+        <td>{%if has_prev%}
+            <a class="btn" href="/customer/account/182{id}?page={{page -1}}&sortColumn={{ sortColumn }}&sortOrder={{ sortOrder }}">Prev</a>
+            {%endif%}
+        </td>
+        <td colspan="4"><h4>Page {{page}} of {{pages}}</h4></td>
+        <td>{%if has_next%}
+            <a class="btn" href="/customer/account/182{id}?page={{page +1}}&sortColumn={{ sortColumn }}&sortOrder={{ sortOrder }}">Next</a>
+            {%endif%}
+        </td>
+    </tr>
+</tfoot>
 </table>
-
 {% endblock %}

@@ -4,7 +4,7 @@ from flask_migrate import Migrate, upgrade
 from model import db, seedData, Customer, Account, Transaction
 from flask_security import roles_accepted, auth_required, logout_user
 # from random import randint
-from forms import NewCustomerForm, NewAccountForm, TransactionForm
+from forms import NewCustomerForm, NewAccountForm, TransactionForm, TransferForm
 import os 
 from datetime import date, datetime
 
@@ -42,7 +42,16 @@ def contactpage():
 @auth_required()
 @roles_accepted("Admin")
 def adminpage():
-    return render_template("admin.html", activePage="secretPage")
+    q = request.args.get('q', '')
+    customers = Customer.query
+    customers = customers.filter(
+        Customer.Id.like( q ) |
+        Customer.NationalId.like( q ))
+    if q == Customer.Id:
+        return render_template("admin.html", activePage="secretPage", q=q, customers = customers)
+    else:
+        pass
+    return render_template("admin.html", activePage="secretPage", q=q, customers = customers)
 
 @app.route("/logout")
 def logout():
@@ -62,10 +71,17 @@ def customerpage(id):
 
 @app.route("/customer/account/<id>")
 def Transaktioner(id):
+    page = int(request.args.get('page', 1))
     account = Account.query.filter_by(Id = id).first()
     transaktioner = Transaction.query.filter_by(AccountId=id)
     transaktioner = transaktioner.order_by(Transaction.Date.desc())
-    return render_template("transactions.html", account=account, transaktioner=transaktioner)
+    paginationObject = transaktioner.paginate(page=page, per_page=10, error_out=False)
+    return render_template("transactions.html", account=account, 
+                            transaktioner=paginationObject.items,
+                            pages=paginationObject.pages,
+                            has_next=paginationObject.has_next,
+                            has_prev=paginationObject.has_prev,
+                            page=page,)
 
 @app.route("/newaccount/<id>", methods=['GET', 'POST'])
 def newaccount(id):
@@ -135,26 +151,28 @@ def Deposit(id):
     return render_template("deposit.html", account=account, customer = customer, formen=form, transaction = transaction)
 
 
-
-
-
-@app.route("/customer/transfer", methods=['GET', 'POST'])
+@app.route("/customer/transfer<id>", methods=['GET', 'POST'])
 def Transfer(id):
-    form =TransactionForm()                               
-    account = Account.query.filter_by(Id = id).first()
+    form =TransferForm()                               
+    account1 = Account.query.filter_by(Id = id).first()
+    account2 = Account.query.filter_by(Id = id).first()
     customer = Customer.query.filter_by(Id = id).first()
 
-    # if form.validate_on_submit():
-    #     newDeposit = Transaction()
-    #     newDeposit.Type = "Personal Deposit"
-    #     newDeposit.Date = form.Date.data
-    #     newDeposit.Amount = form.Amount.data
-    #     newDeposit.NewBalance = Account.Balance + form.Amount.data
-    #     db.session.add(newDeposit)
-    #     db.session.commit()
+    if form.validate_on_submit():
+        account1.Balance = account1.Balance - form.Amount.data
+        account2.Balance = account2.Balance + form.Amount.data
 
-    #    return redirect("/customer/account/<id>")
-    return render_template("transfer.html", account=account, customer = customer,formen=form)
+        transfer = Transaction()
+        transfer.Type = "Transfer"
+        transfer.Date = today
+        transfer.Amount = form.Amount.data
+        transfer.NewBalance = account1.Balance - form.Amount.data
+        transfer.NewBalance = account2.Balance + form.Amount.data
+        db.session.add(transfer)
+        db.session.commit()
+
+        return redirect("/customer/account/<id>")
+    return render_template("transfer.html", account1=account1, account2=account2, customer = customer, formen=form)
 
 
 

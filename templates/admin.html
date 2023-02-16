@@ -8,12 +8,36 @@
 
 {% block content %}
 
+{% block title %}
 <br>
 <br>
-<h3>HI {{ current_user.email }}</h3>
-<!-- {{ current_user.email }}   -->
-<!-- {% if current_user.is_authenticated %}
-{{ current_user.email }} 
-{% endif %} -->
+<h2>Hi {{ current_user.email }}!</h2>
+{% endblock %}
+<br>
+<br>
+
+
+<h3>Search Customer 
+<form method="get">
+    <input class="input" type="text"  name="q"value="{{q}}">
+    <input class="btn" type="submit" value="Search">
+</form></h3>
+
+<table class="table">
+
+    <tbody>
+        {% for c in customers  %}
+            <td>{{ c.Id }}</td>
+            <td colspan="2">{{ c.Surname }} {{ c.GivenName }}</td> 
+            <td>{{ c.NationalId }}</td>
+            <td colspan="2">{{ c.City }}</td>
+            <td><a href="../customer/{{ c.Id }}" class="btn">More info</a></td>
+            <td><a href="/editcustomer/{{ c.Id }}" class='btn'>Edit Customer</a></td>   
+        </tr>
+        {% endfor %}
+    </tbody>  
+    </table>
+
+
 
 {% endblock %}

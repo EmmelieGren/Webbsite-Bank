@@ -17,7 +17,7 @@
 <form class="form-control-login" method="post">
     <table class="table">
     {{ formen.csrf_token }}
-    <h2>New Withdraw</h2>
+    <h2>Transfer</h2>
     <tbody>
         <tr>
             <td>From Account</td>
@@ -26,6 +26,10 @@
         <tr>
             <td>To Account</td>
             <td>{{ formen.AccountId }}</td>
+        </tr>
+        <tr>
+            <td>To Account</td>
+            <td>{{ formen.Amount }}</td>
         </tr>
     </tbody>
     </table>
