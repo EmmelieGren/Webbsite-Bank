@@ -1,15 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Trebuchet:wght@200;300;400;500;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
 
 
 :root {
     --main-color: rgba(59, 37, 20, 0.6);
     --color-dark: rgb(55, 45, 9);
     --back-color: rgb(248, 240, 240);
-    --header-back-color:rgba(161, 134, 114, 0.364);
+    --header-back-color:rgba(107, 83, 66, 0.364);
 }
-
 
 * {
     margin: 0;
@@ -24,6 +23,17 @@ li {
 
 a {
     text-decoration: none;
+}
+
+
+.main {
+    grid-area: main;
+    padding-top: 90px;
+    padding-left: 30px;
+    padding-right: 20px;
+    background-color: var(--color);
+    background-image: url("back.jpg");
+    background-size: 1550px;
 }
 
 .grid-container {
@@ -44,30 +54,6 @@ a {
     grid-area: sidenav;
     background-color: var(--main-color);
 }
-
-
-.main {
-    grid-area: main;
-    background-color: var(--back-color);
-}
-
-.footer {
-    grid-area: footer;
-    background-color: var(--header-back-color);
-}
-
-.header {
-    display: flex;
-    /* justify-content: space-between; */
-    background-color: var(--header-back-color);
-    height: 80px;
-    align-items: center;
-    z-index: 100;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-
-}
-
 .sidenav__list {
     padding: 0;
     margin-top: 20px;
@@ -79,20 +65,26 @@ a {
     color: #fff;
 }
 
+.footer {
+    grid-area: footer;
+    background-color: var(--main-color);
+    text-align: right;
+    padding: 0px 10px;
 
-.sidenav__logo {
-    height: 50px;
-    display: flex;
-    align-items: center;
 }
 
-    .sidenav__logo i {
-        font-size: 28px;
-        font-weight: 500;
-        color: #fff;
-        min-width: 60px;
-        text-align: center
-    }
+.header {
+    display: flex;
+    background-color: var(--header-back-color);
+    height: 80px;
+    align-items: center;
+    z-index: 100;
+    padding: 10px 20px;
+
+
+}
+
+
 
 .sidenav__logo_name {
     color: #fff;
@@ -128,29 +120,38 @@ a {
     cursor: pointer;
 }
 
-.main {
-    padding-top: 90px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-
 .table {
     margin-bottom: 30px;
+
 }
+
     .table th {
         font-size: 20px;
         font-weight: 500;
         padding: 15px 20px;
+        text-align: center;
+
 }
 
     .table td {
         font-size: 18px;
         font-weight: 400;
         padding: 15px 20px;
+        text-align: center       
 }
 
 .btn {
+    color: #fff;
+    background: rgba(59, 37, 20, 0.6);
+    padding: 0.25em 0.75em;
+    font-size: 1em;
+    font-weight: 400;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.input {
     color: #fff;
     background: rgba(59, 37, 20, 0.6);
     padding: 0.25em 0.75em;
@@ -165,15 +166,73 @@ a {
 .form-control {
     display: block;
     width: 100%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
+    height: 98%;
     line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
+    border: 1,5px solid #fff;
     border-radius: 0.25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    color: #fff;
+    background: rgba(59, 37, 20, 0.6);
+    padding: 2em 2em;
+    font-size: 1em;
+    font-weight: 400;
+    border-radius: 15px;
+    text-decoration: none;
 }
 
+    .form-control input {
+        color: #fff;
+        background: rgba(59, 37, 20, 0.6);
+        padding: 0.60em 0.200em;
+        font-size: 1em;
+        font-weight: 400;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
 
+.form-control-login {
+    display: block;
+    width: 40%;
+    height: 40%;
+    line-height: 1.5;
+    background-clip: padding-box;
+    border: 1,5px solid #fff;
+    border-radius: 0.25rem;
+    color: #fff;
+    background: rgba(59, 37, 20, 0.6);
+    padding: 2em 2em;
+    font-size: 1em;
+    font-weight: 400;
+    border-radius: 15px;
+    text-decoration: none;
+    margin-top: 20px;
+}
+    .form-control-login input {
+        color: #fff;
+        background: rgba(59, 37, 20, 0.6);
+        padding: 0.60em 0.200em;
+        font-size: 1em;
+        font-weight: 400;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+.form_index {
+    display: block;
+    width: 40%;
+    height: 70%;
+    line-height: 1.5;
+    background-clip: padding-box;
+    border: 1,5px solid black;
+    border-radius: 0.25rem;
+    color: black;
+    background: rgba(59, 37, 20, 0.6);
+    padding: 2em 2em;
+    font-size: 1em;
+    font-weight: 400;
+    border-radius: 15px;
+    text-decoration: none;
+    margin-top: 20px;
+}
