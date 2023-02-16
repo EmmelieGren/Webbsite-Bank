@@ -30,7 +30,7 @@ class Customer(db.Model):
     City = db.Column(db.String(50), unique=False, nullable=False)
     Zipcode = db.Column(db.String(10), unique=False, nullable=False)
     Country = db.Column(db.String(30), unique=False, nullable=False)
-    CountryCode = db.Column(db.String(2), unique=False, nullable=False)
+    CountryCode = db.Column(db.String(3), unique=False, nullable=False)
     Birthday = db.Column(db.DateTime, unique=False, nullable=False)
     NationalId = db.Column(db.String(20), unique=False, nullable=False)
     TelephoneCountryCode = db.Column(db.Integer, unique=False, nullable=False)
