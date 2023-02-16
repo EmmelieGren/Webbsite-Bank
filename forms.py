@@ -6,15 +6,17 @@ from datetime import timedelta
 import re
 
 
-# def emailContains(form, field):
-#     if not field.data.endswith('.se'):
-#         raise ValidationError('Måste sluta på .se dummer')
-#     if not field.data.endswith('.se'):
-#         raise ValidationError('Måste sluta på .se dummer')
 def emailContains(form, field):
-    valid = r'\b[A-Za-z]+@[A-Za-z]+\.[A-Z|a-z]{2,7}\b'
-    if not field.data(re.fullmatch(valid)):
-        raise ValidationError('Invalid Email')
+    if not field.data.endswith('.se'):
+        raise ValidationError('Måste sluta på .se dummer')
+#     if not field.data.endswith('.se'):
+#         raise ValidationError('Måste sluta på .se dummer')
+
+
+# def emailContains(form, field):
+#     valid = r'\b[A-Za-z]+@[A-Za-z]+\.[A-Z|a-z]{2,7}\b'
+#     if not field.data(re.fullmatch(valid)):
+#         raise ValidationError('Invalid Email')
 
 
 class NewCustomerForm(FlaskForm):
