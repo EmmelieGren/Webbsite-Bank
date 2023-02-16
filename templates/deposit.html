@@ -1,0 +1,32 @@
+
+{% extends "basetemplate.html" %}
+
+
+{% block head %}
+<h1>MLI</h1>
+<h4>BANK</h4>
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<h2>Deposit to {{ account.AccountType }} account nr.{{ account.Id }}</h2><br>
+<h2>Balance: {{account.Balance}} USD</h2><br>
+
+<form class="form-control-login" method="post">
+    <table class="table">
+    {{ formen.csrf_token }}
+    <h2>New Deposit</h2>
+    <tbody>
+        <tr>
+            <td>Amount</td>
+            <td>{{ formen.Amount }}</td>
+        </tr>
+
+    </tbody>
+    </table>
+    <br>
+    <input class="input" type="submit" value="Save">
+</form>
+
+{% endblock %}

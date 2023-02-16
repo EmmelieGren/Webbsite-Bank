@@ -1,79 +1,65 @@
 {% extends "basetemplate.html" %}
 
-{% block title %}
-Alla kunder
-{% endblock %}
-
 {% block head %}
 <h1>MLI</h1>
 <h4>BANK</h4>
 {% endblock %}
 
 {% block content %}
+{% block title %}
+<br>
+<br>
+<h2>Customers List</h2>
+{% endblock %}
 
-<h4>Customers</h4>
-<br></br>
-
+<br>
+<div><a href="/newcustomer" class="btn">New customer</a></div>
+<br>
 <form method="get">
-    <input type="text" placeholder="Search" name="q"value="{{q}}">
+    <input class="input" type="text"  name="q"value="{{q}}">
     <input class="btn" type="submit" value="Search">
 </form>
 
-Page {{page}} of {{pages}}
-
-
 <table class="table">
-    <thead>
-        <th>Name
-            <a href="/customers?sortColumn=name&sortOrder=asc&q={{q}}">
-                <i class='bx bxs-chevron-up'></i> 
-            </a>
-            <a href="/customers?sortColumn=name&sortOrder=desc&q={{q}}">             
-                <i class='bx bxs-chevron-down'></i>
-            </a>
-        </th>
-        <th></th>
-        <th>City
-            <a href="/customers?sortColumn=city&sortOrder=asc&q={{q}}">
-                <i class='bx bxs-chevron-up'></i>
-            </a>
-            <a href="/customers?sortColumn=city&sortOrder=desc&q={{q}}">
-                <i class='bx bxs-chevron-down'></i>
-            </a>
-
-        </th>
-        <th></th>
-    </thead>
-    <tbody>
-        {% for c in customers  %}
+<thead>
+    <th>Cust.Nr</th>
+    <th>Name</th>
+    <th>
+        <a href="/customers?sortColumn=name&sortOrder=asc&q={{q}}"><i class='bx bxs-chevron-up'></i> </a>
+            <a href="/customers?sortColumn=name&sortOrder=desc&q={{q}}"><i class='bx bxs-chevron-down'></i></a>
+    </th>
+    <th>NationalId</th>
+    <th>City</th>
+    <th>
+        <a href="/customers?sortColumn=city&sortOrder=asc&q={{q}}"><i class='bx bxs-chevron-up'></i></a>
+        <a href="/customers?sortColumn=city&sortOrder=desc&q={{q}}"><i class='bx bxs-chevron-down'></i></a>
+    </th>
+</thead>
+<tbody>
+    {% for c in customers  %}
+        <td>{{ c.Id }}</td>
+        <td colspan="2">{{ c.Surname }} {{ c.GivenName }}</td> 
+        <td>{{ c.NationalId }}</td>
+        <td colspan="2">{{ c.City }}</td>
+        <td><a href="../customer/{{ c.Id }}" class="btn">More info</a></td>
+        <td><a href="/editcustomer/{{ c.Id }}" class='btn'>Edit Customer</a></td>   
+    </tr>
+    {% endfor %}
+    <tfoot>
         <tr>
-            <td>{{ c.Surname }} {{ c.GivenName }}</td> 
-            <td></td>
-            <td>{{ c.City }}</td>
-            <td><a href="../customer/{{ c.Id }}" class="btn">More info</a></td>
-        </tr>
-        {% endfor %}
-        <tfoot>
-            <tr>
-                <td>
-                    {%if has_prev%}
-                    <a class="btn" href="/customers?page={{page -1}}&sortColumn={{ sortColumn }}&sortOrder={{ sortOrder }}&q={{ q }}">
-                        Prev
-                    </a>
-                    {%endif%}
-                </td>
-                <td></td>
-                <td></td>
-                <td>
-                    {%if has_next%}
-                    <a class="btn" href="/customers?page={{page +1}}&sortColumn={{ sortColumn }}&sortOrder={{ sortOrder }}&q={{ q }}">
-                        Next
-                    </a>
-                    {%endif%}
-                </td>
-            </tr>
-        </tfoot>
-    </tbody>  
-</table>
-{% endblock %}     
+            <td>{%if has_prev%}
+                <a class="btn" href="/customers?page={{page -1}}&sortColumn={{ sortColumn }}&sortOrder={{ sortOrder }}&q={{ q }}">Prev</a>
+                {%endif%}
+            </td>
 
+            <td><h4>Page {{page}} of {{pages}}</h4></td>
+
+            <td>{%if has_next%}
+                <a class="btn" href="/customers?page={{page +1}}&sortColumn={{ sortColumn }}&sortOrder={{ sortOrder }}&q={{ q }}">Next</a>
+                {%endif%}
+            </td>
+        </tr>
+    </tfoot>
+</tbody>  
+</table>
+{% endblock %}    
