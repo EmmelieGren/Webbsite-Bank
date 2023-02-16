@@ -23,7 +23,6 @@ db.init_app(app)
 migrate = Migrate(app,db)
 
 
-
 @app.route("/")
 def startpage():
     account = Account.query.filter(Account.Balance)
@@ -70,6 +69,8 @@ def customerpage(id):
     return render_template("customer.html", customer=customer,  summa=summa )
 
 @app.route("/customer/account/<id>")
+# @auth_required()
+# @roles_accepted("Admin","Staff")
 def Transaktioner(id):
     page = int(request.args.get('page', 1))
     account = Account.query.filter_by(Id = id).first()
@@ -84,6 +85,8 @@ def Transaktioner(id):
                             page=page,)
 
 @app.route("/newaccount/<id>", methods=['GET', 'POST'])
+# @auth_required()
+# @roles_accepted("Admin","Staff")
 def newaccount(id):
     account = Account.query.filter_by(Id = id).first()
     customer = Customer.query.filter_by(Id = id).first()
@@ -104,6 +107,8 @@ def newaccount(id):
 
 
 @app.route("/customer/account/withdraw/<id>", methods=['GET', 'POST'])
+# @auth_required()
+# @roles_accepted("Admin","Staff")
 def Withdraw(id):
     form =TransactionForm()                               
     account = Account.query.filter_by(Id = id).first()
@@ -129,6 +134,8 @@ def Withdraw(id):
     return render_template("withdraw.html", account = account, customer = customer, formen=form, transaction = transaction)
 
 @app.route("/customer/account/deposit/<id>", methods=['GET', 'POST'])
+# @auth_required()
+# @roles_accepted("Admin","Staff")
 def Deposit(id):
     form =TransactionForm()                               
     account = Account.query.filter_by(Id = id).first()
@@ -152,6 +159,8 @@ def Deposit(id):
 
 
 @app.route("/customer/transfer<id>", methods=['GET', 'POST'])
+# @auth_required()
+# @roles_accepted("Admin","Staff")
 def Transfer(id):
     form =TransferForm()                               
     account1 = Account.query.filter_by(Id = id).first()
