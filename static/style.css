@@ -84,15 +84,6 @@ a {
 
 }
 
-
-
-.sidenav__logo_name {
-    color: #fff;
-    font-size: 24px;
-    font-weight: 500;
-}
-
-
 .active {
     background: var(--color-dark);
 }
