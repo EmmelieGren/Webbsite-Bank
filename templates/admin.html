@@ -1,6 +1,7 @@
 {% extends "basetemplate.html" %}
 
 {% block head %}
+<h1><i class="bx bx-landscape"></i></h1>
 <h1>MLI</h1>
 <h4>BANK</h4>
 {% endblock %}
@@ -31,7 +32,7 @@
             <td colspan="2">{{ c.Surname }} {{ c.GivenName }}</td> 
             <td>{{ c.NationalId }}</td>
             <td colspan="2">{{ c.City }}</td>
-            <td><a href="../customer/{{ c.Id }}" class="btn">More info</a></td>
+            <td><a href="/customer/{{ c.Id }}" class="btn">More info</a></td>
             <td><a href="/editcustomer/{{ c.Id }}" class='btn'>Edit Customer</a></td>   
         </tr>
         {% endfor %}
