@@ -1,26 +1,71 @@
 {% extends "basetemplate.html" %}
 
-{% block title %}
-New customer
+{% block head %}
+<h1>MLI</h1>
+<h4>BANK</h4>
 {% endblock %}
 
 {% block content %}
-
     {% for field, errors in formen.errors.items() %}
     {{ formen[field].label }}: {{ ', '.join(errors) }}
-    </br>
     {% endfor %}
 
-   <form method="post">
+<form class="form-control" method="post">
+    <table class="table">
     {{ formen.csrf_token }}
-    {{ formen.name(placeholder="Enter name") }}
-    {{ formen.city(placeholder="Enter city") }}
-    {{ formen.age() }}
-
-     <h3>
-        hej
-     </h3>  
-     {{ formen.countryCode() }}
-    <input type="submit" value="Spara">
-   </form>
+    <h2>New customer</h2>
+    <tbody>
+        <tr>
+            <td>Firstname</td>
+            <td>{{ formen.givenName(placeholder="John") }}</td>
+        </tr>
+        <tr>
+            <td>Lastname</td>
+            <td>{{ formen.surname(placeholder="Smith") }} </td>
+        </tr>
+        <tr>
+            <td>Street Adress</td>
+            <td>{{ formen.streetaddress(placeholder="Happy road") }}</td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td>{{ formen.city(placeholder="Mountain Village") }}</td>
+        </tr>
+        <tr>
+            <td>Zipcode</td>
+            <td>{{ formen.zipcode(placeholder="12345") }}</td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td>{{ formen.country(placeholder="USA") }}</td>
+        </tr>
+        <tr>
+            <td>Country code</td>
+            <td>{{ formen.countryCode(placeholder="US") }}</td>
+        </tr>
+        <tr>
+            <td>Birthday</td>
+            <td>{{ formen.birthday(placeholder="Enter birthday") }}</td>
+        </tr>
+        <tr>
+            <td>National Id</td>
+            <td>{{ formen.nationalId(placeholder="YYMMDD-0000") }}</td>
+        </tr>
+        <tr>
+            <td>Telephone Countrycode</td>
+            <td>{{ formen.telephoneCountryCode(placeholder="55") }}</td>
+        </tr>
+        <tr>
+            <td>Telephone</td>
+            <td>{{ formen.telephone(placeholder="(000)222-2222") }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ formen.emailAddress(placeholder="hello@mail.dk") }}</td>
+        </tr>
+    </tbody>
+    </table>
+    <br>
+    <input class="input" type="submit" value="Save">
+</form>
 {% endblock %}    
