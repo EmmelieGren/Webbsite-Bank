@@ -32,18 +32,18 @@ class NewCustomerForm(FlaskForm):
     birthday = DateField('birthday', validators=[validators.DataRequired()])                 
     nationalId = IntegerField('nationalId', validators=[validators.DataRequired()])
     telephoneCountryCode = IntegerField('telephoneCountryCode', validators=[validators.DataRequired()])
-    telephone = IntegerField('telephone', validators=[validators.DataRequired()])
+    telephone = StringField('telephone', validators=[validators.DataRequired()])
     emailAddress = EmailField('emailadress', validators=[validators.DataRequired(),emailContains])
 
 class NewAccountForm(FlaskForm):
     AccountType = SelectField('AccountType',choices=[('Personal', 'Personal'),('Checking', 'Checking'),('Savings', 'Savings')])
 
 class TransactionForm(FlaskForm): 
-    Amount = DecimalField('Amount',validators=[validators.DataRequired()])
+    Amount = DecimalField('Amount',validators=[validators.DataRequired(), validators.NumberRange(min=1,max=5000)])
 
 
 class Transfer(FlaskForm):
     Date = DateField(label='Date', validators=[validators.DataRequired()], default= datetime.utcnow )
-    Amount = DecimalField('Amount',validators=[validators.DataRequired()])
+    Amount = DecimalField('Amount', validators=[validators.DataRequired(), validators.NumberRange(min=1,max=5000)])
     AccountId = IntegerField('Account', validators=[validators.DataRequired()])
     AccountId = IntegerField('Account', validators=[validators.DataRequired()])
