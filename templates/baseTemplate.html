@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}" asp-append-version="true">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css'  rel='stylesheet'>
-    <title>
+    <title style ="text-align: center;">
         {% block title %}
         {% endblock %}
        </title>
@@ -14,7 +14,7 @@
 <body>
     <div class="grid-container">
         <header class="header">
-            <p style="text-align: center">
+            <p>
                 {% block head %}
                 {% endblock %}
             </p>
@@ -24,42 +24,54 @@
               <ul class="sidenav__list">
                 <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
                     <a href="/">
-                        <i class="bx bx-bug"></i>
-                        Homepage</a>
+                        <i class="bx bx-landscape"></i>
+                        Home</a>
                 </li>
-              </ul>
-              <ul class="sidenav__list">
                 <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
                     <a href="/customers">
-                        <i class="bx bx-bug"></i>
+                        <i class="bx bx-landscape"></i>
                         List customers</a>
                 </li>
-              </ul>
-              <ul class="sidenav__list">
+                <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
+                    <a href="/newcustomer">
+                        <i class="bx bx-landscape"></i>
+                        New Customer</a>  
+                </li>
                 <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
                     <a href="/customer/76">
-                        <i class="bx bx-bug"></i>
+                        <i class="bx bx-landscape"></i>
                         Kund 76</a>  
                 </li>
-              </ul>
-              <ul class="sidenav__list">
                 <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
                     <a href="/contact">
-                        <i class="bx bx-bug"></i>
+                        <i class="bx bx-landscape"></i>
                         Contact</a>  
                 </li>
+                <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
+                    <a href="/admin">
+                        <i class="bx bx-landscape"></i>
+                        Log in</a>
+                </li> 
+                {% if current_user.is_authenticated %}
+                <li class="sidenav__list-item {{ 'active' if activePage == 'secretPage' }}">
+                    <a href="/logout">
+                        <i class="bx bx-landscape"></i>
+                        Logout {{ current_user.email }}</a>
+                </li>
+                {% endif %}
+
+               </ul> 
           </aside>        
         <main class="main">
             {% block content %}
             {% endblock %}
         </main>
         <footer class="footer">
-            {% block footer %}
-            {% endblock %}
+            <div>
+                <br>
+                <h3><i class="bx bx-copyright"></i> MLI Gren</h3>
+            </div>
         </footer>      
     </div>
-
-
-
 </body>
 </html>

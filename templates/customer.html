@@ -1,20 +1,69 @@
 {% extends "basetemplate.html" %}
 
-{% block title %}
-
-Kundsida {{ customer.GivenName }} {{ customer.Surname }}
-
-{% endblock %}
-
 {% block head %}
 <h1>MLI</h1>
 <h4>BANK</h4>
 {% endblock %}
 
+
+
+{% block title %}
+<br>
+<br>
+Kundsida {{ customer.GivenName }} {{ customer.Surname }}
+
+{% endblock %}
+
 {% block content %}
-
+<br>
+<br>
 <h1>{{ customer.GivenName }} {{ customer.Surname }}</h1>
-<p>City: {{ customer.City }}.</p>
+<br>
+<p>National Id: {{customer.NationalId}}</p>
+<p>Customer nr: {{ customer.Id }}</p>
+<br>
+<h4>Contact Info</h4>
+<p>Adress: {{ customer.Streetaddress }}</p>
+<p>Zipcode: {{customer.Zipcode}}</p>
+<p>City: {{ customer.City }}</p>
+<p>Country: {{ customer.Country }}</p>
 <p>Telephone: +{{ customer.TelephoneCountryCode }}  {{ customer.Telephone }}</p>
-{% endblock %}    
+<p>Email: {{ customer.EmailAddress }}</p>
 
+<br>
+<a href="/editcustomer/{{customer.Id}}" class='btn'>Edit Customer</a></td>
+<a href="/newaccount/{{customer.Id}}" class='btn'>New Account</a></td>
+<a href="/customer/transfer" class='btn'>Transfer</a>
+<br>
+
+
+<table class="table">
+<thead>
+    <th><h3>Accounts</h3></th>
+    <th></th>
+    <th><h3>Sum</h3></th>
+    <th></th>
+</thead>
+<tbody>
+    {% for a in customer.Accounts  %}
+    <tr>
+        <td><h5>{{ a.AccountType }} Account nr. {{ a.Id }} </h5></td>
+        <td></td>
+        <td> {{ a.Balance }} USD</td> 
+        <td></td>
+        <td><a href="/customer/account/{{a.Id}}" class="btn">Transactions</a></td>
+        <td><a href="/customer/account/withdraw/{{a.Id}}" class='btn'>Withdraw</a></td>
+        <td><a href="/customer/account/deposit/{{a.Id}}" class='btn'>Deposit</a></td>
+    </tr>
+    {% endfor %}
+</tbody>
+<tfoot>
+    <tr>
+        <td>
+            Totalt:  {{ summa }}
+        </td>
+    </tr>
+</tfoot>
+</table>
+
+{% endblock %}  
