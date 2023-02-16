@@ -1,0 +1,35 @@
+{% extends "basetemplate.html" %}
+
+
+{% block head %}
+<h1>MLI</h1>
+<h4>BANK</h4>
+{% endblock %}
+
+{% block content %}
+{% for field, errors in formen.errors.items() %}
+{{ formen[field].label }}: {{ ', '.join(errors) }}
+{% endfor %}
+<br>
+<br>
+<h2>Transfer</h2>
+
+<form class="form-control-login" method="post">
+    <table class="table">
+    {{ formen.csrf_token }}
+    <h2>New Withdraw</h2>
+    <tbody>
+        <tr>
+            <td>From Account</td>
+            <td>{{ formen.AccountId }}</td>
+        </tr>
+        <tr>
+            <td>To Account</td>
+            <td>{{ formen.AccountId }}</td>
+        </tr>
+    </tbody>
+    </table>
+    <br>
+    <input class="input" type="submit" value="Save">
+</form>
+{% endblock %}    
