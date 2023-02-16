@@ -119,6 +119,9 @@ def Withdraw(id):
     #     raise Exception("To hig withdraw")  
 
     if form.validate_on_submit():
+        account = Account.query.filter_by(Id = id).first()
+        transaction = Transaction.query.filter_by(Id = id).first()
+        customer = Customer.query.filter_by(Id = id).first()
         account.Balance = account.Balance - form.Amount.data
         newWithdraw = Transaction()
         newWithdraw.Type = transaction.Type
@@ -292,6 +295,17 @@ def editcustomer(id):
         form.emailAddress.data = customer.EmailAddress
     return render_template("editcustomer.html", formen=form )
 
+app.route("/sweden")
+def StatisticSweden():
+    return render_template("sweden.html" )
+
+app.route("/norway")
+def StatisticNorway():
+    return render_template("norway.html" )
+
+app.route("/us")
+def StatisticUs():
+    return render_template("us.html" )
 
 if __name__  == "__main__":
     with app.app_context():
