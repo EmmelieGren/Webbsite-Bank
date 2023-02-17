@@ -33,12 +33,12 @@ a {
     padding-right: 20px;
     background-color: var(--color);
     background-image: url("back.jpg");
-    background-size: 1550px;
+    background-size: 1650px;
 }
 
 .grid-container {
     display: grid;
-    grid-template-columns: 240px 1fr;
+    grid-template-columns: 350px 1fr;
     grid-template-rows: 0px 1fr 50px;
     grid-template-areas:
         "sidenav header"

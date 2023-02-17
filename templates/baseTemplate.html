@@ -59,6 +59,11 @@
                         <i class="bx bx-landscape"></i>
                         Logout {{ current_user.email }}</a>
                 </li>
+                <li class="sidenav__list-item {{ 'active' if activePage == 'secretPage' }}">
+                    <a href="/admin">
+                        <i class="bx bx-landscape"></i>
+                        Admin</a>
+                </li>
                 {% endif %}
 
                </ul> 

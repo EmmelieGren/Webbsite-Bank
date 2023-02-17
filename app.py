@@ -47,10 +47,10 @@ def adminpage():
         Customer.Id.like( q ) |
         Customer.NationalId.like( q ))
     if q == Customer.Id:
-        return render_template("admin.html", activePage="secretPage", q=q, customers = customers)
+        return render_template("admin.html",  q=q, customers = customers)
     else:
         pass
-    return render_template("admin.html", activePage="secretPage", q=q, customers = customers)
+    return render_template("admin.html",  q=q, customers = customers)
 
 @app.route("/logout")
 def logout():
@@ -88,21 +88,19 @@ def Transaktioner(id):
 # @auth_required()
 # @roles_accepted("Admin","Staff")
 def newaccount(id):
-    account = Account.query.filter_by(Id = id).first()
-    customer = Customer.query.filter_by(Id = id).first()
+    account = Account.query
+    customer = Customer.query
     form = NewAccountForm()
     if form.validate_on_submit():
         newaccount =  Account()
-        newaccount.Id = customer
+        newaccount.CustomerId = customer.Id
         newaccount.AccountType = form.AccountType.data
         newaccount.Created = today
         newaccount.Balance = 0
-        #customer.Accounts = customer.Accounts + newaccount
-        db.session.add(newaccount)
+        db.session.add(account)
         db.session.commit()
         return redirect("/customer/account/<id>" )
     return render_template("newaccount.html", formen=form, customer = customer, account = account )
-
 
 
 
