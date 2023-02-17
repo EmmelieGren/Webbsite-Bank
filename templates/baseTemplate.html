@@ -23,43 +23,45 @@
           <aside class="sidenav">
 
               <ul class="sidenav__list">
-                <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
+                <li class="sidenav__list-item">
                     <a href="/">
                         <i class="bx bx-landscape"></i>
                         Home</a>
                 </li>
-                <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
+                <li class="sidenav__list-item">
                     <a href="/customers">
                         <i class="bx bx-landscape"></i>
-                        List customers</a>
+                        Customers</a>
                 </li>
-                <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
+                <li class="sidenav__list-item">
                     <a href="/newcustomer">
                         <i class="bx bx-landscape"></i>
                         New Customer</a>  
                 </li>
-                <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
+                <li class="sidenav__list-item">
                     <a href="/customer/76">
                         <i class="bx bx-landscape"></i>
                         Kund 76</a>  
                 </li>
-                <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
+                <li class="sidenav__list-item">
                     <a href="/contact">
                         <i class="bx bx-landscape"></i>
                         Contact</a>  
                 </li>
-                <li class="sidenav__list-item {{ 'active' if activePage == 'customersPage' }}">
+                {% if not current_user.is_authenticated %}
+                <li class="sidenav__list-item">
                     <a href="/admin">
                         <i class="bx bx-landscape"></i>
                         Log in</a>
                 </li> 
+                {% endif %}
                 {% if current_user.is_authenticated %}
-                <li class="sidenav__list-item {{ 'active' if activePage == 'secretPage' }}">
+                <li class="sidenav__list-item">
                     <a href="/logout">
                         <i class="bx bx-landscape"></i>
                         Logout {{ current_user.email }}</a>
                 </li>
-                <li class="sidenav__list-item {{ 'active' if activePage == 'secretPage' }}">
+                <li class="sidenav__list-item">
                     <a href="/admin">
                         <i class="bx bx-landscape"></i>
                         Admin</a>

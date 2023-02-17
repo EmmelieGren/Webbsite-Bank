@@ -35,7 +35,7 @@ def startpage():
 
 @app.route("/contact")
 def contactpage():
-    return render_template("contact.html",activePage="contactPage")
+    return render_template("contact.html")
 
 @app.route("/admin")
 @auth_required()
