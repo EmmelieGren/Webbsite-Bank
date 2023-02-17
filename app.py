@@ -50,7 +50,9 @@ def adminpage():
         return render_template("admin.html",  q=q, customers = customers)
     else:
         pass
-    return render_template("admin.html",  q=q, customers = customers)
+        return render_template("admin.html",  q=q, customers = customers)
+
+
 
 @app.route("/logout")
 def logout():
@@ -66,7 +68,7 @@ def customerpage(id):
     summa  =  0
     for accounts in customer.Accounts:
         summa = summa + accounts.Balance
-    return render_template("customer.html", customer=customer,  summa=summa )
+    return render_template("customer.html", customer=customer, summa=summa)
 
 @app.route("/customer/account/<id>")
 # @auth_required()
@@ -99,7 +101,7 @@ def newaccount(id):
         newaccount.Balance = 0
         db.session.add(newaccount)
         db.session.commit()
-        return redirect("/customer/account/<id>" )
+        return redirect("/customer/" + str(account.CustomerId))
     return render_template("newaccount.html", formen=form, customer = customer, account = account )
 
 
@@ -130,8 +132,7 @@ def Withdraw(id):
         newWithdraw.AccountId = account.Id
         db.session.add(newWithdraw)
         db.session.commit()
-        return redirect("/customer/account/<id>")
-
+        return redirect("/customer/" + str(account.CustomerId))
     return render_template("withdraw.html", account = account, customer = customer, formen=form, transaction = transaction)
 
 @app.route("/customer/account/deposit/<id>", methods=['GET', 'POST'])
@@ -155,40 +156,39 @@ def Deposit(id):
         db.session.add(newDeposit)
         db.session.commit()
 
-        return redirect("/customer/account/<id>")
+        return redirect("/customer/" + str(account.CustomerId))
     return render_template("deposit.html", account=account, customer = customer, formen=form, transaction = transaction)
 
 
-@app.route("/customer/transfer<id>", methods=['GET', 'POST'])
+@app.route("/customer/account/transfer/<id>", methods=['GET', 'POST'])
 # @auth_required()
 # @roles_accepted("Admin","Staff")
 def Transfer(id):
     form =TransferForm()                               
-    account1 = Account.query.filter_by(Id = id).first()
-    account2 = Account.query.filter_by(Id = id).first()
-    customer = Customer.query.filter_by(Id = id).first()
+    sender = Account.query.filter_by(Id = id).first()
+    receiver = form.AccountId.data
 
     if form.validate_on_submit():
-        account1.Balance = account1.Balance - form.Amount.data
-        account2.Balance = account2.Balance + form.Amount.data
+        sender.Balance = sender.Balance - form.Amount.data
+        receiver.Balance = receiver.Balance + form.Amount.data
 
         transfer = Transaction()
         transfer.Type = "Transfer"
         transfer.Date = today
         transfer.Amount = form.Amount.data
-        transfer.NewBalance = account1.Balance - form.Amount.data
-        transfer.NewBalance = account2.Balance + form.Amount.data
+        transfer.NewBalance = sender.Balance - form.Amount.data
+        transfer.NewBalance = receiver.Balance + form.Amount.data
         db.session.add(transfer)
         db.session.commit()
 
-        return redirect("/customer/account/<id>")
-    return render_template("transfer.html", account1=account1, account2=account2, customer = customer, formen=form)
+        return redirect("/customer/" + str(sender.CustomerId))
+    return render_template("transfer.html", sender=sender, formen=form, receiver=receiver)
 
 
 
 @app.route("/customers")
-# @auth_required()
-# @roles_accepted("Admin","Staff")
+@auth_required()
+@roles_accepted("Admin","Staff")
 def customersPage():
     sortColumn = request.args.get('sortColumn', 'name')
     sortOrder = request.args.get('sortOrder', 'asc')
