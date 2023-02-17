@@ -29,7 +29,6 @@ Kundsida {{ customer.GivenName }} {{ customer.Surname }}
 <br>
 <a href="/editcustomer/{{customer.Id}}" class='btn'>Edit Customer</a></td>
 <a href="/newaccount/{{customer.Id}}" class='btn'>New Account</a></td>
-<a href="/customer/transfer" class='btn'>Transfer</a>
 <br>
 
 
@@ -50,6 +49,7 @@ Kundsida {{ customer.GivenName }} {{ customer.Surname }}
         <td><a href="/customer/account/{{a.Id}}" class="btn">Transactions</a></td>
         <td><a href="/customer/account/withdraw/{{a.Id}}" class='btn'>Withdraw</a></td>
         <td><a href="/customer/account/deposit/{{a.Id}}" class='btn'>Deposit</a></td>
+        <td><a href="/customer/transfer/{{a.Id}}" class='btn'>Transfer</a></td>
     </tr>
     {% endfor %}
 </tbody>

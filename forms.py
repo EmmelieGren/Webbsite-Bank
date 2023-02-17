@@ -44,5 +44,4 @@ class TransactionForm(FlaskForm):
 
 class TransferForm(FlaskForm):
     Amount = DecimalField('Amount', validators=[validators.DataRequired(), validators.NumberRange(min=1,max=5000)])
-    AccountId = SelectField('Account', choices=[('konto', 'Konto 1'), ('konto', 'Konto 2')])
-    AccountId = SelectField('Account', choices=[('konto', 'Konto 1'), ('konto', 'Konto 2')])
+    AccountId = IntegerField('nationalId', validators=[validators.DataRequired()])
