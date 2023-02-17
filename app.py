@@ -88,8 +88,8 @@ def Transaktioner(id):
 # @auth_required()
 # @roles_accepted("Admin","Staff")
 def newaccount(id):
-    account = Account.query
-    customer = Customer.query
+    account = Account.query.filter_by(Id = id).first()
+    customer = Customer.query.filter_by(Id = id).first()
     form = NewAccountForm()
     if form.validate_on_submit():
         newaccount =  Account()
@@ -97,7 +97,7 @@ def newaccount(id):
         newaccount.AccountType = form.AccountType.data
         newaccount.Created = today
         newaccount.Balance = 0
-        db.session.add(account)
+        db.session.add(newaccount)
         db.session.commit()
         return redirect("/customer/account/<id>" )
     return render_template("newaccount.html", formen=form, customer = customer, account = account )
