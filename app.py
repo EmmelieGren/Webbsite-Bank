@@ -164,27 +164,44 @@ def Deposit(id):
 # @auth_required()
 # @roles_accepted("Admin","Staff")
 def Transfer(id):
-    form =TransferForm()                               
-    sender = Account.query.filter_by(Id = id).first()
-    receiver = form.AccountId.data
+    form =TransferForm()
+    account = Account.query.filter_by(Id = id).first()
+    receiver = Account.query.filter_by(Id = form.Id.data).first()
+    transactionSender = Transaction() 
+    transactionReceiver = Transaction()
 
     if form.validate_on_submit():
-        sender.Balance = sender.Balance - form.Amount.data
-        receiver.Balance = receiver.Balance + form.Amount.data
 
-        transfer = Transaction()
-        transfer.Type = "Transfer"
-        transfer.Date = today
-        transfer.Amount = form.Amount.data
-        transfer.NewBalance = sender.Balance - form.Amount.data
-        transfer.NewBalance = receiver.Balance + form.Amount.data
-        db.session.add(transfer)
+        transactionSender.Amount = form.Amount.data
+        account.Balance = account.Balance - transactionSender.Amount
+        transactionSender.NewBalance = account.Balance
+        transactionSender.AccountId = account.Id
+        transactionSender.Date = today
+        transactionSender.Type = "Credit"
+        transactionSender.Operation = "Transfer"
+
+        transactionReceiver.Amount= form.Amount.data
+        receiver.Balance = receiver.Balance + transactionReceiver.Amount
+        transactionReceiver.NewBalance = receiver.Balance
+        transactionReceiver.AccountId = receiver.Id
+        transactionReceiver.Date = today
+        transactionReceiver.Type = "Debit"
+        transactionReceiver.Operation = "Transfer"
+
+        db.session.add(account)
+        db.session.add(receiver)
+        db.session.add(transactionReceiver)
+        db.session.add(transactionSender)
         db.session.commit()
-
-        return redirect("/customer/" + str(sender.CustomerId))
-    return render_template("transfer.html", sender=sender, formen=form, receiver=receiver)
-
-
+        
+        return redirect("/customer/" + str(account.CustomerId))
+    return render_template("transfer.html",  
+                                            formen=form,
+                                            account = account, 
+                                            receiver=receiver, 
+                                            transactionReceiver=transactionReceiver, 
+                                            transactionSender=transactionSender,
+                                            )
 
 @app.route("/customers")
 @auth_required()
@@ -293,15 +310,17 @@ def editcustomer(id):
         form.emailAddress.data = customer.EmailAddress
     return render_template("editcustomer.html", formen=form )
 
-app.route("/sweden")
+
+
+@app.route("/sweden")
 def StatisticSweden():
     return render_template("sweden.html" )
 
-app.route("/norway")
+@app.route("/norway")
 def StatisticNorway():
     return render_template("norway.html" )
 
-app.route("/us")
+@app.route("/us")
 def StatisticUs():
     return render_template("us.html" )
 
