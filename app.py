@@ -66,7 +66,7 @@ def customerpage(id):
     summa  =  0
     for accounts in customer.Accounts:
         summa = summa + accounts.Balance
-    return render_template("customer.html", customer=customer, summa=summa)
+    return render_template("customer/customer.html", customer=customer, summa=summa)
 
 @app.route("/customer/account/<id>")
 # @auth_required()
@@ -77,7 +77,7 @@ def Transaktioner(id):
     transaktioner = Transaction.query.filter_by(AccountId=id)
     transaktioner = transaktioner.order_by(Transaction.Date.desc())
     paginationObject = transaktioner.paginate(page=page, per_page=10, error_out=False)
-    return render_template("transactions.html", account=account, 
+    return render_template("transactions/transactions.html", account=account, 
                             transaktioner=paginationObject.items,
                             pages=paginationObject.pages,
                             has_next=paginationObject.has_next,
@@ -100,7 +100,7 @@ def newaccount(id):
         db.session.add(newaccount)
         db.session.commit()
         return redirect("/customer/" + str(account.CustomerId))
-    return render_template("newaccount.html", formen=form, customer = customer, account = account )
+    return render_template("customer/newaccount.html", formen=form, customer = customer, account = account )
 
 
 
@@ -131,7 +131,7 @@ def Withdraw(id):
         db.session.add(newWithdraw)
         db.session.commit()
         return redirect("/customer/" + str(account.CustomerId))
-    return render_template("withdraw.html", account = account, customer = customer, formen=form, transaction = transaction)
+    return render_template("transactions/withdraw.html", account = account, customer = customer, formen=form, transaction = transaction)
 
 @app.route("/customer/account/deposit/<id>", methods=['GET', 'POST'])
 # @auth_required()
@@ -154,7 +154,7 @@ def Deposit(id):
         db.session.add(newDeposit)
         db.session.commit()
         return redirect("/customer/" + str(account.CustomerId))
-    return render_template("deposit.html", account=account, customer = customer, formen=form, transaction = transaction)
+    return render_template("transactions/deposit.html", account=account, customer = customer, formen=form, transaction = transaction)
 
 
 @app.route("/customer/account/transfer/<id>", methods=['GET', 'POST'])
@@ -192,7 +192,7 @@ def Transfer(id):
         db.session.commit()
         
         return redirect("/customer/" + str(account.CustomerId))
-    return render_template("transfer.html",  
+    return render_template("transactions/transfer.html",  
                                             formen=form,
                                             account = account, 
                                             receiver=receiver, 
@@ -230,7 +230,7 @@ def customersPage():
             customers = customers.order_by(Customer.City.desc())
 
     paginationObject = customers.paginate(page=page, per_page=10, error_out=False)
-    return render_template("customers.html",
+    return render_template("customer/customers.html",
                             customers=paginationObject.items,
                             pages=paginationObject.pages,
                             sortOrder=sortOrder,
@@ -269,7 +269,7 @@ def newcustomer():
         db.session.add(customer)
         db.session.commit()
         return redirect("/" )
-    return render_template("newcustomer.html", formen=form )
+    return render_template("customer/newcustomer.html", formen=form )
 
 @app.route("/editcustomer/<id>", methods=['GET', 'POST'])
 # @auth_required()
@@ -291,7 +291,7 @@ def editcustomer(id):
         customer.Telephone = form.telephone.data
         customer.EmailAddress = form.emailAddress.data
         db.session.commit()
-        return redirect("/customers" )
+        return redirect("/customer/customers" )
     if request.method == 'GET':
         form.givenName.data = customer.GivenName
         form.surname.data = customer.Surname
@@ -305,21 +305,21 @@ def editcustomer(id):
         form.telephoneCountryCode.data = customer.TelephoneCountryCode
         form.telephone.data = customer.Telephone
         form.emailAddress.data = customer.EmailAddress
-    return render_template("editcustomer.html", formen=form )
+    return render_template("customer/editcustomer.html", formen=form )
 
 
 
 @app.route("/sweden")
 def StatisticSweden():
-    return render_template("sweden.html" )
+    return render_template("country/sweden.html" )
 
 @app.route("/norway")
 def StatisticNorway():
-    return render_template("norway.html" )
+    return render_template("country/norway.html" )
 
 @app.route("/us")
 def StatisticUs():
-    return render_template("us.html" )
+    return render_template("country/us.html" )
 
 if __name__  == "__main__":
     with app.app_context():
