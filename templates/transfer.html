@@ -16,14 +16,12 @@
     {{ formen.csrf_token }}
     <h2>Transfer</h2>
     <tbody>
-
         <tr>
-            <td>From Account</td>
-            <td>{{ formen.AccountId }}</td>
-        </tr>
+            <td>From Account: {{ account.AccountType }} account nr.{{ account.Id }}</td>
+        </tr>    
         <tr>
             <td>To Account</td>
-            <td>{{ formen.AccountId }}</td>
+            <td>{{ formen.Id }}</td>
         </tr>
         <tr>
             <td>Ammount:</td>
