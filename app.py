@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, upgrade
 from model import db, seedData, Customer, Account, Transaction
 from flask_security import roles_accepted, auth_required, logout_user
-# from random import randint
+from random import randint
 from forms import NewCustomerForm, NewAccountForm, TransactionForm, TransferForm
 import os 
 from datetime import date, datetime
@@ -51,8 +51,6 @@ def adminpage():
     else:
         pass
         return render_template("admin.html",  q=q, customers = customers)
-
-
 
 @app.route("/logout")
 def logout():
@@ -155,7 +153,6 @@ def Deposit(id):
         newDeposit.AccountId = account.Id
         db.session.add(newDeposit)
         db.session.commit()
-
         return redirect("/customer/" + str(account.CustomerId))
     return render_template("deposit.html", account=account, customer = customer, formen=form, transaction = transaction)
 
