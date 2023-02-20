@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, upgrade
-from model import db, seedData, Customer, Account, Transaction
-from flask_security import roles_accepted, auth_required, logout_user
+from model import db, seedData
 from random import randint
 import os 
 from datetime import datetime
@@ -11,6 +10,7 @@ from datetime import datetime
 from areas.customerpage import customerBluePrint
 from areas.transactionpage import transactionBluePrint
 from areas.adminpages import adminBluePrint
+from areas.index import indexBluePrint
 
 
 today = datetime.now()
@@ -31,42 +31,8 @@ migrate = Migrate(app,db)
 app.register_blueprint(customerBluePrint)
 app.register_blueprint(transactionBluePrint)
 app.register_blueprint(adminBluePrint)
+app.register_blueprint(indexBluePrint)
 
-
-@app.route("/")
-def startpage():
-    account = Account.query.filter(Account.Balance)
-    totalBalance  =  0
-    allAccounts = Account.query.count()
-    customers = Customer.query.count()
-    for x in account:
-        totalBalance += x.Balance 
-    return render_template("index.html", allAccounts= allAccounts, customers = customers, totalBalance=totalBalance )
-
-
-@app.route("/sweden")
-def StatisticSweden():
-    account = Account.query.filter(Account.Balance)
-    customer = Customer.query.filter(Customer.CountryCode)
-    totalBalance  =  0
-    allAccounts = Account.query.count()
-    customers = Customer.query.count()
-    sweden = 0
-    for se in customer:
-        sweden += se.CountryCode("SE")
-    for x in account:
-        totalBalance += x.Balance 
-    return render_template("country/sweden.html", allAccounts= allAccounts, customers = customers, totalBalance=totalBalance, sweden = sweden )
-
-    
-
-@app.route("/norway")
-def StatisticNorway():
-    return render_template("country/norway.html" )
-
-@app.route("/us")
-def StatisticUs():
-    return render_template("country/us.html" )
 
 if __name__  == "__main__":
     with app.app_context():
