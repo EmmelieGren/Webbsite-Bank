@@ -8,6 +8,10 @@ from forms import NewCustomerForm, NewAccountForm, TransactionForm, TransferForm
 import os 
 from datetime import datetime
 
+
+from areas.customerpage import customerBluePrint
+
+
 today = datetime.now()
 
 app = Flask(__name__)
@@ -21,6 +25,9 @@ app.config["SESSION_COOKIE_SAMESITE"] = "strict"
 db.app = app
 db.init_app(app)
 migrate = Migrate(app,db)
+
+
+app.register_blueprint(customerBluePrint)
 
 
 @app.route("/")
@@ -57,50 +64,6 @@ def logout():
     logout_user()
     return redirect("/")
 
-
-@app.route("/customer/<id>")
-# @auth_required()
-# @roles_accepted("Admin","Staff")
-def customerpage(id):
-    customer = Customer.query.filter_by(Id = id).first()
-    summa  =  0
-    for accounts in customer.Accounts:
-        summa = summa + accounts.Balance
-    return render_template("customer/customer.html", customer=customer, summa=summa)
-
-@app.route("/customer/account/<id>")
-# @auth_required()
-# @roles_accepted("Admin","Staff")
-def Transaktioner(id):
-    page = int(request.args.get('page', 1))
-    account = Account.query.filter_by(Id = id).first()
-    transaktioner = Transaction.query.filter_by(AccountId=id)
-    transaktioner = transaktioner.order_by(Transaction.Date.desc())
-    paginationObject = transaktioner.paginate(page=page, per_page=10, error_out=False)
-    return render_template("transactions/transactions.html", account=account, 
-                            transaktioner=paginationObject.items,
-                            pages=paginationObject.pages,
-                            has_next=paginationObject.has_next,
-                            has_prev=paginationObject.has_prev,
-                            page=page,)
-
-@app.route("/newaccount/<id>", methods=['GET', 'POST'])
-# @auth_required()
-# @roles_accepted("Admin","Staff")
-def newaccount(id):
-    account = Account.query.filter_by(Id = id).first()
-    customer = Customer.query.filter_by(Id = id).first()
-    form = NewAccountForm()
-    if form.validate_on_submit():
-        newaccount =  Account()
-        newaccount.CustomerId = customer.Id
-        newaccount.AccountType = form.AccountType.data
-        newaccount.Created = today
-        newaccount.Balance = 0
-        db.session.add(newaccount)
-        db.session.commit()
-        return redirect("/customer/" + str(account.CustomerId))
-    return render_template("customer/newaccount.html", formen=form, customer = customer, account = account )
 
 @app.route("/customer/account/withdraw/<id>", methods=['GET', 'POST'])
 # @auth_required()
@@ -197,112 +160,6 @@ def Transfer(id):
                                             transactionSender=transactionSender,
                                             )
 
-@app.route("/customers")
-@auth_required()
-@roles_accepted("Admin","Staff")
-def customersPage():
-    sortColumn = request.args.get('sortColumn', 'name')
-    sortOrder = request.args.get('sortOrder', 'asc')
-    q = request.args.get('q', '')
-    page = int(request.args.get('page', 1))
-
-    customers = Customer.query
-
-    customers = customers.filter(
-        Customer.Surname.like('%' + q + '%') |
-        Customer.GivenName.like('%' + q + '%') |
-        Customer.Id.like('%' + q + '%') |
-        Customer.NationalId.like('%' + q + '%') |
-        Customer.City.like('%' + q + '%'))
-        
-    if sortColumn == "name":
-        if sortOrder == "asc":
-            customers = customers.order_by(Customer.Surname.asc())
-        else:
-            customers = customers.order_by(Customer.Surname.desc())
-    elif sortColumn == "city":
-        if sortOrder == "asc":
-            customers = customers.order_by(Customer.City.asc())
-        else:
-            customers = customers.order_by(Customer.City.desc())
-
-    paginationObject = customers.paginate(page=page, per_page=10, error_out=False)
-    return render_template("customer/customers.html",
-                            customers=paginationObject.items,
-                            pages=paginationObject.pages,
-                            sortOrder=sortOrder,
-                            sortColumn=sortColumn,
-                            has_next=paginationObject.has_next,
-                            has_prev=paginationObject.has_prev,
-                            page=page,
-                            q=q
-                            )
-
-@app.route("/newcustomer", methods=['GET', 'POST'])
-# @auth_required()
-# @roles_accepted("Admin")
-def newcustomer():
-    form = NewCustomerForm()
-    if form.validate_on_submit():
-        customer = Customer()
-        customer.GivenName = form.givenName.data
-        customer.Surname = form.surname.data
-        customer.Streetaddress = form.streetaddress.data
-        customer.City = form.city.data
-        customer.Zipcode = form.zipcode.data
-        customer.Country = form.country.data
-        customer.CountryCode = form.countryCode.data
-        customer.Birthday = form.birthday.data
-        customer.NationalId = form.nationalId.data
-        customer.TelephoneCountryCode = form.telephoneCountryCode.data
-        customer.Telephone = form.telephone.data
-        customer.EmailAddress = form.emailAddress.data
-        newaccount = Account()
-        newaccount.AccountType = "Checking"
-        newaccount.Created = today
-        newaccount.Balance = 0
-        customer.Accounts = [newaccount]
-
-        db.session.add(customer)
-        db.session.commit()
-        return redirect("/" )
-    return render_template("customer/newcustomer.html", formen=form )
-
-@app.route("/editcustomer/<id>", methods=['GET', 'POST'])
-# @auth_required()
-# @roles_accepted("Admin")
-def editcustomer(id):
-    customer = Customer.query.filter_by(Id=id).first()
-    form = NewCustomerForm()
-    if form.validate_on_submit():
-        customer.GivenName = form.givenName.data
-        customer.Surname = form.surname.data
-        customer.Streetaddress = form.streetaddress.data
-        customer.City = form.city.data
-        customer.Zipcode = form.zipcode.data
-        customer.Country = form.country.data
-        customer.CountryCode = form.countryCode.data
-        customer.Birthday = form.birthday.data
-        customer.NationalId = form.nationalId.data
-        customer.TelephoneCountryCode = form.telephoneCountryCode.data
-        customer.Telephone = form.telephone.data
-        customer.EmailAddress = form.emailAddress.data
-        db.session.commit()
-        return redirect("/customer/customers" )
-    if request.method == 'GET':
-        form.givenName.data = customer.GivenName
-        form.surname.data = customer.Surname
-        form.streetaddress.data = customer.Streetaddress
-        form.city.data = customer.City
-        form.zipcode.data = customer.Zipcode
-        form.country.data = customer.Country
-        form.countryCode.data = customer.CountryCode
-        form.birthday.data = customer.Birthday
-        form.nationalId.data = customer.NationalId
-        form.telephoneCountryCode.data = customer.TelephoneCountryCode
-        form.telephone.data = customer.Telephone
-        form.emailAddress.data = customer.EmailAddress
-    return render_template("customer/editcustomer.html", formen=form )
 
 @app.route("/sweden")
 def StatisticSweden():
