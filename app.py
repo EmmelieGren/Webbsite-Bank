@@ -10,6 +10,7 @@ from datetime import datetime
 
 from areas.customerpage import customerBluePrint
 from areas.transactionpage import transactionBluePrint
+from areas.adminpages import adminBluePrint
 
 
 today = datetime.now()
@@ -29,6 +30,7 @@ migrate = Migrate(app,db)
 
 app.register_blueprint(customerBluePrint)
 app.register_blueprint(transactionBluePrint)
+app.register_blueprint(adminBluePrint)
 
 
 @app.route("/")
@@ -40,30 +42,6 @@ def startpage():
     for x in account:
         totalBalance += x.Balance 
     return render_template("index.html", allAccounts= allAccounts, customers = customers, totalBalance=totalBalance )
-
-@app.route("/contact")
-def contactpage():
-    return render_template("contact.html")
-
-@app.route("/admin")
-@auth_required()
-@roles_accepted("Admin")
-def adminpage():
-    q = request.args.get('q', '')
-    customers = Customer.query
-    customers = customers.filter(
-        Customer.Id.like( q ) |
-        Customer.NationalId.like( q ))
-    if q == Customer.Id:
-        return render_template("admin.html",  q=q, customers = customers)
-    else:
-        pass
-        return render_template("admin.html",  q=q, customers = customers)
-
-@app.route("/logout")
-def logout():
-    logout_user()
-    return redirect("/")
 
 
 @app.route("/sweden")
