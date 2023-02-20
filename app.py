@@ -6,7 +6,7 @@ from flask_security import roles_accepted, auth_required, logout_user
 from random import randint
 from forms import NewCustomerForm, NewAccountForm, TransactionForm, TransferForm
 import os 
-from datetime import date, datetime
+from datetime import datetime
 
 today = datetime.now()
 
@@ -102,8 +102,6 @@ def newaccount(id):
         return redirect("/customer/" + str(account.CustomerId))
     return render_template("customer/newaccount.html", formen=form, customer = customer, account = account )
 
-
-
 @app.route("/customer/account/withdraw/<id>", methods=['GET', 'POST'])
 # @auth_required()
 # @roles_accepted("Admin","Staff")
@@ -155,7 +153,6 @@ def Deposit(id):
         db.session.commit()
         return redirect("/customer/" + str(account.CustomerId))
     return render_template("transactions/deposit.html", account=account, customer = customer, formen=form, transaction = transaction)
-
 
 @app.route("/customer/account/transfer/<id>", methods=['GET', 'POST'])
 # @auth_required()
@@ -307,11 +304,21 @@ def editcustomer(id):
         form.emailAddress.data = customer.EmailAddress
     return render_template("customer/editcustomer.html", formen=form )
 
-
-
 @app.route("/sweden")
 def StatisticSweden():
-    return render_template("country/sweden.html" )
+    account = Account.query.filter(Account.Balance)
+    customer = Customer.query.filter(Customer.CountryCode)
+    totalBalance  =  0
+    allAccounts = Account.query.count()
+    customers = Customer.query.count()
+    sweden = 0
+    for se in customer:
+        sweden += se.CountryCode("SE")
+    for x in account:
+        totalBalance += x.Balance 
+    return render_template("country/sweden.html", allAccounts= allAccounts, customers = customers, totalBalance=totalBalance, sweden = sweden )
+
+    
 
 @app.route("/norway")
 def StatisticNorway():
