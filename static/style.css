@@ -8,6 +8,9 @@
     --color-dark: rgb(55, 45, 9);
     --back-color: rgb(248, 240, 240);
     --header-back-color:rgba(107, 83, 66, 0.364);
+    /* --select-border: #777;
+    --select-focus: blue;
+    --select-arrow: var(--select-border); */
 }
 
 * {
@@ -36,6 +39,20 @@ a {
     background-size: 1650px;
 }
 
+/* .select {
+    width: 100%;
+    min-width: 15ch;
+    max-width: 30ch;
+    border: 1px solid var(--select-border);
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #fff;
+    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+  } */
+
 .grid-container {
     display: grid;
     grid-template-columns: 350px 1fr;
@@ -46,7 +63,6 @@ a {
         "sidenav footer";
     height: 100vh;
 }
-
 
 .sidenav {
     display: flex; 
@@ -84,10 +100,6 @@ a {
 
 }
 
-.active {
-    background: var(--color-dark);
-}
-
 .sidenav__list-item i {
     min-width: 30px;
     text-align: center;
@@ -96,7 +108,6 @@ a {
     margin-right: 10px;
 }
 
-
 .sidenav__list-item a {
     font-size: 18px;
     line-height: 20px;
@@ -104,7 +115,6 @@ a {
     display: flex;
     align-items: center;
 }
-
 
 .sidenav__list-item:hover {
     background: var(--color-dark);
@@ -152,7 +162,6 @@ a {
     text-decoration: none;
     transition: all 0.3s ease;
 }
-
 
 .form-control {
     display: block;

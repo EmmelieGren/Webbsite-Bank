@@ -1,12 +1,11 @@
 {% extends "basetemplate.html" %}
 
-
-
-
 {% block content %}
 {% for field, errors in formen.errors.items() %}
 {{ formen[field].label }}: {{ ', '.join(errors) }}
 {% endfor %}
+
+
 <br>
 <br>
 <h2>Transfer</h2>
