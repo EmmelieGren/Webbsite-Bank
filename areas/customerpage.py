@@ -1,9 +1,10 @@
 
 from flask import Blueprint, render_template, redirect, request
-from model import db, seedData, Customer, Account, Transaction
+from flask_security import roles_accepted, auth_required, logout_user
+from model import db, Customer, Account, Transaction
 from forms import NewCustomerForm, NewAccountForm
-from datetime import datetime
-today = datetime.now()
+from .services import getAccounts, getCustomers, getDate
+
 
 customerBluePrint = Blueprint('customerpage', __name__)
 
@@ -11,7 +12,7 @@ customerBluePrint = Blueprint('customerpage', __name__)
 # @auth_required()
 # @roles_accepted("Admin","Staff")
 def customerpage(id):
-    customer = Customer.query.filter_by(Id = id).first()
+    customer = getCustomers(id)
     summa  =  0
     for accounts in customer.Accounts:
         summa = summa + accounts.Balance
@@ -22,7 +23,7 @@ def customerpage(id):
 # @roles_accepted("Admin","Staff")
 def Transaktioner(id):
     page = int(request.args.get('page', 1))
-    account = Account.query.filter_by(Id = id).first()
+    account = getAccounts(id)
     transaktioner = Transaction.query.filter_by(AccountId=id)
     transaktioner = transaktioner.order_by(Transaction.Date.desc())
     paginationObject = transaktioner.paginate(page=page, per_page=10, error_out=False)
@@ -76,7 +77,7 @@ def customersPage():
 
 @customerBluePrint.route("/editcustomer/<id>", methods=['GET', 'POST'])
 def editcustomer(id):
-    customer = Customer.query.filter_by(Id=id).first()
+    customer = getCustomers(id)
     form = NewCustomerForm()
     if form.validate_on_submit():
         customer.GivenName = form.givenName.data
@@ -130,7 +131,7 @@ def newcustomer():
         customer.EmailAddress = form.emailAddress.data
         newaccount = Account()
         newaccount.AccountType = "Checking"
-        newaccount.Created = today
+        newaccount.Created = getDate()
         newaccount.Balance = 0
         customer.Accounts = [newaccount]
 
@@ -144,14 +145,14 @@ def newcustomer():
 # @auth_required()
 # @roles_accepted("Admin","Staff")
 def newaccount(id):
-    account = Account.query.filter_by(Id = id).first()
-    customer = Customer.query.filter_by(Id = id).first()
+    account = getAccounts(id)
+    customer = getCustomers(id)
     form = NewAccountForm()
     if form.validate_on_submit():
         newaccount =  Account()
         newaccount.CustomerId = customer.Id
         newaccount.AccountType = form.AccountType.data
-        newaccount.Created = today
+        newaccount.Created = getDate()
         newaccount.Balance = 0
         db.session.add(newaccount)
         db.session.commit()

@@ -4,16 +4,12 @@ from flask_migrate import Migrate, upgrade
 from model import db, seedData
 from random import randint
 import os 
-from datetime import datetime
-
 
 from areas.customerpage import customerBluePrint
 from areas.transactionpage import transactionBluePrint
 from areas.adminpages import adminBluePrint
 from areas.index import indexBluePrint
 
-
-today = datetime.now()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:my-secret-pw@localhost/bank'
