@@ -1,5 +1,11 @@
 {% extends "basetemplate.html" %}
 
+{% block title %}
+Transfer
+{% endblock %}  
+
+
+
 {% block content %}
 {% for field, errors in formen.errors.items() %}
 {{ formen[field].label }}: {{ ', '.join(errors) }}

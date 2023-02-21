@@ -1,6 +1,8 @@
 {% extends "basetemplate.html" %}
 
-
+{% block title %}
+New customer
+{% endblock %}
 
 {% block content %}
     {% for field, errors in formen.errors.items() %}

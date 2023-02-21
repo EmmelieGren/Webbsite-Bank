@@ -1,16 +1,15 @@
 {% extends "basetemplate.html" %}
 
-
-
-
 {% block title %}
+Customer page
+{% endblock %}  
+
+
+{% block content %}
+
 <br>
 <br>
 Kundsida {{ customer.GivenName }} {{ customer.Surname }}
-
-{% endblock %}
-
-{% block content %}
 <br>
 <br>
 <h1>{{ customer.GivenName }} {{ customer.Surname }}</h1>

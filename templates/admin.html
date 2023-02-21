@@ -1,19 +1,20 @@
 {% extends "basetemplate.html" %}
 
-
+{% block title %}
+Admin page
+{% endblock %}
 
 {% block content %}
 
-{% block title %}
+
 <br>
 <br>
 <h2>Hi {{ current_user.email }}!</h2>
-{% endblock %}
 <br>
 <br>
 
 
-<h3>Search Customer with Cust.nr or NationalId:
+<h3>Search Customer with Cust.nr or NationalId:</h3><br>
 <form method="get">
     <input class="input" type="text"  name="q"value="{{q}}">
     <input class="btn" type="submit" value="Search">
