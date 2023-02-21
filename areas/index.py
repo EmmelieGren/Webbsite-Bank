@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from model import db, Customer, Account
+from model import  Customer, Account
 
 indexBluePrint = Blueprint('index', __name__)
 
@@ -19,16 +19,13 @@ def startpage():
 @indexBluePrint.route("/sweden")
 def StatisticSweden():
     account = Account.query.filter(Account.Balance)
-    customer = Customer.query.filter(Customer.CountryCode)
-    totalBalance  =  0
+    sweden = Customer.query.filter(Customer.TelephoneCountryCode) #==46
     allAccounts = Account.query.count()
     customers = Customer.query.count()
-    sweden = 0
-    for se in customer:
-        sweden += se.CountryCode("SE")
+    totalBalance  =  0
     for x in account:
         totalBalance += x.Balance 
-    return render_template("country/sweden.html", allAccounts= allAccounts, customers = customers, totalBalance=totalBalance, sweden = sweden )
+    return render_template("country/sweden.html",customers=customers, allAccounts= allAccounts, totalBalance=totalBalance)
 
 
 @indexBluePrint.route("/norway")

@@ -236,3 +236,48 @@ a {
     text-decoration: none;
     margin-top: 20px;
 }
+
+
+
+
+.custom-select {
+  position: relative;
+  display: block;
+
+  margin: 0 auto;
+  border: 1px solid;
+  background-color: rgba(107, 83, 66, 0.364);
+  z-index: 10
+}
+  .custom-select select{
+    border: none;
+    outline: none;
+    background: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    margin: 0;
+    display: block;
+    width: 100%;
+    padding: 12px 55px 15px 15px;
+    font-size: 14px;
+    color: rgba(59, 37, 20, 0.6)
+    }
+  
+    .custom-select-after{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    line-height: 38px;
+    content: '\2228';
+    text-align: center;
+    color:  rgba(59, 37, 20, 0.6);
+    font-size: 24px;
+    border-left: 1px solid rgba(59, 37, 20, 0.6);
+    z-index: -1
+  
+}
+
