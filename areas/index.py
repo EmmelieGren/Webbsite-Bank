@@ -19,13 +19,13 @@ def startpage():
 @indexBluePrint.route("/sweden")
 def StatisticSweden():
     account = Account.query.filter(Account.Balance)
-    sweden = Customer.query.filter(Customer.TelephoneCountryCode) #==46
+    sweden = Customer.query.filter_by(Customer.TelephoneCountryCode=="46"()) 
     allAccounts = Account.query.count()
     customers = Customer.query.count()
     totalBalance  =  0
     for x in account:
         totalBalance += x.Balance 
-    return render_template("country/sweden.html",customers=customers, allAccounts= allAccounts, totalBalance=totalBalance)
+    return render_template("country/sweden.html",customers=customers, allAccounts= allAccounts, totalBalance=totalBalance, sweden=sweden)
 
 
 @indexBluePrint.route("/norway")

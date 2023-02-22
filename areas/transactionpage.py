@@ -4,8 +4,6 @@ from model import db, Customer, Account, Transaction
 from forms import TransactionForm, TransferForm
 from .services import getTransactions, getAccounts, getCustomers, getDate
 
-
-
 transactionBluePrint = Blueprint('transactionpage', __name__)
 
 @transactionBluePrint.route("/customer/account/withdraw/<id>", methods=['GET', 'POST'])
@@ -16,25 +14,28 @@ def Withdraw(id):
     account = getAccounts(id)
     customer = getCustomers(id)
     transaction =  getTransactions(id)
-
+    large = ['Too large']
     # if form.Amount.data < account.Balance:
     #     raise Exception("To hig withdraw")  
-
     if form.validate_on_submit():
-        account = getAccounts(id)
-        transaction = getTransactions(id)
-        customer =  getCustomers(id)
-        account.Balance = account.Balance - form.Amount.data
-        newWithdraw = Transaction()
-        newWithdraw.Type = transaction.Type
-        newWithdraw.Operation = "Personal Withdraw"
-        newWithdraw.Date = getDate()
-        newWithdraw.Amount = form.Amount.data
-        newWithdraw.NewBalance = account.Balance - form.Amount.data
-        newWithdraw.AccountId = account.Id
-        db.session.add(newWithdraw)
-        db.session.commit()
-        return redirect("/customer/" + str(account.CustomerId))
+        if account.Balance < form.Amount.data:
+                form.Amount.errors = form.Amount.errors + large
+        else:
+            account = getAccounts(id)
+            transaction = getTransactions(id)
+            customer =  getCustomers(id)
+            account.Balance = account.Balance - form.Amount.data
+            newWithdraw = Transaction()
+            newWithdraw.Type = transaction.Type
+            newWithdraw.Operation = "Personal Withdraw"
+            newWithdraw.Date = getDate()
+            newWithdraw.Amount = form.Amount.data
+            newWithdraw.NewBalance = account.Balance - form.Amount.data
+            newWithdraw.AccountId = account.Id
+            db.session.add(newWithdraw)
+            db.session.commit()
+            return redirect("/customer/" + str(account.CustomerId))
+
     return render_template("transactions/withdraw.html", account = account, customer = customer, formen=form, transaction = transaction)
 
 
@@ -59,6 +60,7 @@ def Deposit(id):
         db.session.add(newDeposit)
         db.session.commit()
         return redirect("/customer/" + str(account.CustomerId))
+
     return render_template("transactions/deposit.html", account=account, customer = customer, formen=form, transaction = transaction)
 
 
@@ -71,32 +73,44 @@ def Transfer(id):
     receiver = Account.query.filter_by(Id = form.Id.data).first()
     transactionSender = Transaction() 
     transactionReceiver = Transaction()
+    error1 = [' Invalid account ']
+    error2 = [' Cant transfer to same account ']
+    error3 = [' Too larg amount ']
+
 
     if form.validate_on_submit():
-        transactionSender.Amount = form.Amount.data
-        account.Balance = account.Balance - transactionSender.Amount
-        transactionSender.NewBalance = account.Balance
-        transactionSender.AccountId = account.Id
-        transactionSender.Date = getDate()
-        transactionSender.Type = "Credit"
-        transactionSender.Operation = "Transfer"
+        if account.Balance < form.Amount.data:
+            form.Amount.errors = form.Amount.errors + error3
+        # elif receiver.Id not in account.Id:
+        #     form.Id.errors = form.Id.errors + error1
+        elif receiver.Id == account.Id:
+            form.Id.errors = form.Id.errors + error2
 
-        transactionReceiver.Amount= form.Amount.data
-        receiver.Balance = receiver.Balance + transactionReceiver.Amount
-        transactionReceiver.NewBalance = receiver.Balance
-        transactionReceiver.AccountId = receiver.Id
-        transactionReceiver.Date = getDate()
-        transactionReceiver.Type = "Debit"
-        transactionReceiver.Operation = "Transfer"
+        else:
+            transactionSender.Amount = form.Amount.data
+            account.Balance = account.Balance - transactionSender.Amount
+            transactionSender.NewBalance = account.Balance
+            transactionSender.AccountId = account.Id
+            transactionSender.Date = getDate()
+            transactionSender.Type = "Credit"
+            transactionSender.Operation = "Transfer"
 
-        db.session.add(account)
-        db.session.add(receiver)
-        db.session.add(transactionReceiver)
-        db.session.add(transactionSender)
-        db.session.commit()
-        
-        return redirect("/customer/" + str(account.CustomerId))
-    return render_template("transactions/transfer.html",  
+            transactionReceiver.Amount= form.Amount.data
+            receiver.Balance = receiver.Balance + transactionReceiver.Amount
+            transactionReceiver.NewBalance = receiver.Balance
+            transactionReceiver.AccountId = receiver.Id
+            transactionReceiver.Date = getDate()
+            transactionReceiver.Type = "Debit"
+            transactionReceiver.Operation = "Transfer"
+
+            db.session.add(account)
+            db.session.add(receiver)
+            db.session.add(transactionReceiver)
+            db.session.add(transactionSender)
+            db.session.commit()
+            
+            return redirect("/customer/" + str(account.CustomerId))
+    return render_template("transactions/transfer.html", 
                                             formen=form,
                                             account = account, 
                                             receiver=receiver, 

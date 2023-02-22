@@ -1,16 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms import Form, BooleanField, StringField, PasswordField, validators, ValidationError
 from wtforms.fields import IntegerField, SelectField, DateField, DecimalField, EmailField
-from datetime import datetime
-from datetime import timedelta  
-# from Test import FormsTestCases
 
-#if not field.data.endswith('.[AZ]|[az]{2,3}'):
-
-# def emailContains(form, field):
-#     if not field.data.endswith('.se'):
-#         raise ValidationError('Have to end with ex: .se')
-
+def emailContains(form, field):
+    if not field.data.endswith('.com'):
+        raise ValidationError('Have to end with ex: .se')
 
 
 def stringContains(form, field):
@@ -29,20 +23,14 @@ class NewCustomerForm(FlaskForm):
     nationalId = StringField('telephoneCountryCode', validators=[validators.DataRequired()])
     telephoneCountryCode = SelectField('AccountType',choices=[('46', '46'),('47', '47'),('55', '55')])
     telephone = StringField('telephone', validators=[validators.DataRequired()])
-    emailAddress = EmailField('emailadress', validators=[validators.DataRequired()])
+    emailAddress = EmailField('emailadress', validators=[validators.DataRequired(),emailContains])
 
 class NewAccountForm(FlaskForm):
     AccountType = SelectField('AccountType',choices=[('Personal', 'Personal'),('Checking', 'Checking'),('Savings', 'Savings')])
 
 class TransactionForm(FlaskForm): 
-    Amount = DecimalField('Amount',validators=[validators.DataRequired(), validators.NumberRange(min=1,max=5000)])
-
+    Amount = DecimalField('Amount',validators=[validators.DataRequired(), validators.NumberRange(min=1,max=10000)])
 
 class TransferForm(FlaskForm):
-    Amount = DecimalField('Amount', validators=[validators.DataRequired(), validators.NumberRange(min=1,max=5000)])
+    Amount = DecimalField('Amount', validators=[validators.DataRequired(), validators.NumberRange(min=1,max=10000)])
     Id = IntegerField('Id', validators=[validators.DataRequired()])
-
-
-class LostPw(FlaskForm):
-    emailAddress = EmailField('emailadress', validators=[validators.DataRequired()])
-    pw = StringField('password', validators=[validators.DataRequired()])
