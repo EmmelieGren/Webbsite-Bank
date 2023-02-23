@@ -79,8 +79,6 @@ def customersPage():
 @auth_required()
 @roles_accepted("Admin")
 def editcustomer(id):
-    if not roles_accepted == ("Admin"):
-        return redirect("staffpage.html")
     customer = getCustomers(id)
     form = NewCustomerForm()
     if form.validate_on_submit():
