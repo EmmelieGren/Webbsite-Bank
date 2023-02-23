@@ -5,6 +5,7 @@ from app import app
 from model import db, Transaction, Customer, Account
 from datetime import datetime
 from forms import TransactionForm
+from areas.services import getTransactions, getAccounts, getCustomers, getDate
 
 from sqlalchemy import create_engine
 
@@ -25,22 +26,21 @@ class FormsTestCases(unittest.TestCase):
         db.app = app
         db.create_all()
         
-        
-        
     def tearDown(self):
         #self.ctx.pop()
         pass
 
 
     def test_When_withdraw__is_greater_than_new_balance_write_errormessage(self):
-        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", Birthday=datetime.now(), NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
+        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", 
+        Birthday=getDate, NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
 
         db.session.add(customer)
         db.session.commit()
-        account = Account(AccountType="Personal", Created=datetime.now(), Balance=700, CustomerId=customer.Id)
+        account = Account(AccountType="Personal", Created=getDate, Balance=700, CustomerId=customer.Id)
         db.session.add(account)
         db.session.commit()
-        transaction = Transaction(Type="Debit", Operation="test", Date=datetime.now(), Amount=2000, NewBalance=2500, AccountId=account.Id)
+        transaction = Transaction(Type="Debit", Operation="test", Date=getDate, Amount=2000, NewBalance=2500, AccountId=account.Id)
         db.session.add(transaction)
         db.session.commit()
         test_client = app.test_client()
@@ -54,14 +54,15 @@ class FormsTestCases(unittest.TestCase):
 
 
     def test_When_transfer__is_greater_than_new_balance_write_errormessage(self):
-        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", Birthday=datetime.now(), NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
+        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", 
+        Birthday=getDate, NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
 
         db.session.add(customer)
         db.session.commit()
-        account = Account(AccountType="Personal", Created=datetime.now(), Balance=700, CustomerId=customer.Id)
+        account = Account(AccountType="Personal", Created=getDate, Balance=700, CustomerId=customer.Id)
         db.session.add(account)
         db.session.commit()
-        transaction = Transaction(Type="Debit", Operation="test", Date=datetime.now(), Amount=2000, NewBalance=2500, AccountId=account.Id)
+        transaction = Transaction(Type="Debit", Operation="test", Date=getDate, Amount=2000, NewBalance=2500, AccountId=account.Id)
         db.session.add(transaction)
         db.session.commit()
         test_client = app.test_client()
@@ -75,14 +76,15 @@ class FormsTestCases(unittest.TestCase):
             self.assertTrue(ok)
 
     def test_When_withdraw__is_less_than_zero_write_errormessage(self):
-        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", Birthday=datetime.now(), NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
+        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", 
+        Birthday=getDate, NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
 
         db.session.add(customer)
         db.session.commit()
-        account = Account(AccountType="Personal", Created=datetime.now(), Balance=700, CustomerId=customer.Id)
+        account = Account(AccountType="Personal", Created=getDate, Balance=700, CustomerId=customer.Id)
         db.session.add(account)
         db.session.commit()
-        transaction = Transaction(Type="Debit", Operation="test", Date=datetime.now(), Amount=2000, NewBalance=2500, AccountId=account.Id)
+        transaction = Transaction(Type="Debit", Operation="test", Date=getDate, Amount=2000, NewBalance=2500, AccountId=account.Id)
         db.session.add(transaction)
         db.session.commit()
         test_client = app.test_client()
@@ -95,14 +97,15 @@ class FormsTestCases(unittest.TestCase):
             self.assertTrue(ok)
 
     def test_When_deposit__is_less_than_zero_write_errormessage(self):
-        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", Birthday=datetime.now(), NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
+        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", 
+        Birthday=getDate, NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
 
         db.session.add(customer)
         db.session.commit()
-        account = Account(AccountType="Personal", Created=datetime.now(), Balance=700, CustomerId=customer.Id)
+        account = Account(AccountType="Personal", Created=getDate, Balance=700, CustomerId=customer.Id)
         db.session.add(account)
         db.session.commit()
-        transaction = Transaction(Type="Debit", Operation="test", Date=datetime.now(), Amount=2000, NewBalance=2500, AccountId=account.Id)
+        transaction = Transaction(Type="Debit", Operation="test", Date=getDate, Amount=2000, NewBalance=2500, AccountId=account.Id)
         db.session.add(transaction)
         db.session.commit()
         test_client = app.test_client()
@@ -115,14 +118,15 @@ class FormsTestCases(unittest.TestCase):
             self.assertTrue(ok)
 
     def test_When_transfer__is_less_than_zero_write_errormessage(self):
-        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", Birthday=datetime.now(), NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
+        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", 
+        Birthday=getDate, NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
 
         db.session.add(customer)
         db.session.commit()
-        account = Account(AccountType="Personal", Created=datetime.now(), Balance=700, CustomerId=customer.Id)
+        account = Account(AccountType="Personal", Created=getDate, Balance=700, CustomerId=customer.Id)
         db.session.add(account)
         db.session.commit()
-        transaction = Transaction(Type="Debit", Operation="test", Date=datetime.now(), Amount=2000, NewBalance=2500, AccountId=account.Id)
+        transaction = Transaction(Type="Debit", Operation="test", Date=getDate, Amount=2000, NewBalance=2500, AccountId=account.Id)
         db.session.add(transaction)
         db.session.commit()
         test_client = app.test_client()

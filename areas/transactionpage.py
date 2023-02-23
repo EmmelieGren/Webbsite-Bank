@@ -73,18 +73,18 @@ def Transfer(id):
     receiver = Account.query.filter_by(Id = form.Id.data).first()
     transactionSender = Transaction() 
     transactionReceiver = Transaction()
-    error1 = [' Invalid account ']
-    error2 = [' Cant transfer to same account ']
-    error3 = [' Too larg amount ']
+    errorAmount = [' To large amount ']
+    errorAccountDoNotExist = [' Account do not exist ']
+    errorSameAccount = [' Cant transfer to same account ']
 
 
     if form.validate_on_submit():
         if account.Balance < form.Amount.data:
-            form.Amount.errors = form.Amount.errors + error3
-        # elif receiver.Id not in account.Id:
-        #     form.Id.errors = form.Id.errors + error1
+            form.Amount.errors = form.Amount.errors + errorAmount
+        elif receiver == None:
+            form.Id.errors = form.Id.errors + errorAccountDoNotExist
         elif receiver.Id == account.Id:
-            form.Id.errors = form.Id.errors + error2
+            form.Id.errors = form.Id.errors + errorSameAccount
 
         else:
             transactionSender.Amount = form.Amount.data

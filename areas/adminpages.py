@@ -9,14 +9,15 @@ adminBluePrint = Blueprint('adminpages', __name__)
 @roles_accepted("Admin")
 def adminpage():
     q = request.args.get('q', '')
+    errorCustomer = [' Customer do not exist! ']
     customers = Customer.query
     customers = customers.filter(
         Customer.Id.like( q ) |
         Customer.NationalId.like( q ))
-    if q == Customer.Id:
+    if q == customers:
         return render_template("admin.html",  q=q, customers = customers)
     else:
-        pass
+        # raise ValueError ("wrong cust")
         return render_template("admin.html",  q=q, customers = customers)
 
 
