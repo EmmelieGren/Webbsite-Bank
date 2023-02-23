@@ -5,7 +5,7 @@ from app import app
 from model import db, Transaction, Customer, Account
 from datetime import datetime
 from forms import TransactionForm
-from areas.services import getTransactions, getAccounts, getCustomers, getDate
+from areas.services import getDate
 
 from sqlalchemy import create_engine
 
@@ -49,7 +49,7 @@ class FormsTestCases(unittest.TestCase):
             url = f'/transactions?hidden={account.Id}&transaction=withdrawal'
             response = test_client.post(url, data={"withdrawal":2600, "operation":"test", "type":"Credit"})
             s = response.data.decode("utf-8") 
-            ok = 'To low balance!' in s
+            ok = 'Amount is larger then your balance!' in s
             self.assertTrue(ok)
 
 
@@ -72,7 +72,7 @@ class FormsTestCases(unittest.TestCase):
             url = f'/transactions?hidden={account.Id}&transaction=transfer'
             response = test_client.post(url, data={"transfer":26000, "operation":"test", "type":"Credit", "to_account":account.Id})
             s = response.data.decode("utf-8") 
-            ok = 'To low balance!' in s
+            ok = 'Amount is larger then your balance!' in s
             self.assertTrue(ok)
 
     def test_When_withdraw__is_less_than_zero_write_errormessage(self):

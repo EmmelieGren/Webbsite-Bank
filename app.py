@@ -7,7 +7,7 @@ import os
 
 from areas.customerpage import customerBluePrint
 from areas.transactionpage import transactionBluePrint
-from areas.adminpages import adminBluePrint
+from areas.staffpages import staffBluePrint
 from areas.index import indexBluePrint
 
 
@@ -26,7 +26,7 @@ migrate = Migrate(app,db)
 
 app.register_blueprint(customerBluePrint)
 app.register_blueprint(transactionBluePrint)
-app.register_blueprint(adminBluePrint)
+app.register_blueprint(staffBluePrint)
 app.register_blueprint(indexBluePrint)
 
 

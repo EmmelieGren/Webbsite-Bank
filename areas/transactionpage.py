@@ -7,16 +7,15 @@ from .services import getTransactions, getAccounts, getCustomers, getDate
 transactionBluePrint = Blueprint('transactionpage', __name__)
 
 @transactionBluePrint.route("/customer/account/withdraw/<id>", methods=['GET', 'POST'])
-# @auth_required()
-# @roles_accepted("Admin","Staff")
+@auth_required()
+@roles_accepted("Admin","Staff")
 def Withdraw(id):
     form =TransactionForm()                               
     account = getAccounts(id)
     customer = getCustomers(id)
     transaction =  getTransactions(id)
-    large = ['Too large']
-    # if form.Amount.data < account.Balance:
-    #     raise Exception("To hig withdraw")  
+    large = ['Amount is larger then your balance!']
+ 
     if form.validate_on_submit():
         if account.Balance < form.Amount.data:
                 form.Amount.errors = form.Amount.errors + large
@@ -40,8 +39,8 @@ def Withdraw(id):
 
 
 @transactionBluePrint.route("/customer/account/deposit/<id>", methods=['GET', 'POST'])
-# @auth_required()
-# @roles_accepted("Admin","Staff")
+@auth_required()
+@roles_accepted("Admin","Staff")
 def Deposit(id):
     form =TransactionForm()                               
     account = getAccounts(id)
@@ -65,17 +64,17 @@ def Deposit(id):
 
 
 @transactionBluePrint.route("/customer/account/transfer/<id>", methods=['GET', 'POST'])
-# @auth_required()
-# @roles_accepted("Admin","Staff")
+@auth_required()
+@roles_accepted("Admin","Staff")
 def Transfer(id):
     form =TransferForm()
     account = getAccounts(id)
     receiver = Account.query.filter_by(Id = form.Id.data).first()
     transactionSender = Transaction() 
     transactionReceiver = Transaction()
-    errorAmount = [' To large amount ']
-    errorAccountDoNotExist = [' Account do not exist ']
-    errorSameAccount = [' Cant transfer to same account ']
+    errorAmount = ['Amount is larger then your balance!']
+    errorAccountDoNotExist = [' Account do not exist! ']
+    errorSameAccount = [' Cant transfer to same account! ']
 
 
     if form.validate_on_submit():

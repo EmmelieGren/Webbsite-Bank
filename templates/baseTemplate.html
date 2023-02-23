@@ -50,7 +50,7 @@
                 </li>
                 {% if not current_user.is_authenticated %}
                 <li class="sidenav__list-item">
-                    <a href="/admin">
+                    <a href="/staffpage">
                         <i class="bx bx-landscape"></i>
                         Log in</a>
                 </li> 
@@ -62,9 +62,9 @@
                         Logout {{ current_user.email }}</a>
                 </li>
                 <li class="sidenav__list-item">
-                    <a href="/admin">
+                    <a href="/staffpage">
                         <i class="bx bx-landscape"></i>
-                        Admin</a>
+                        Logged in Menu</a>
                 </li>
                 {% endif %}
 
