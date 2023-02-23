@@ -4,6 +4,9 @@ from model import db, Customer
 
 staffBluePrint = Blueprint('staffpages', __name__)
 
+class MyValidationError(Exception):
+    pass
+
 @staffBluePrint.route("/staffpage")
 @auth_required()
 @roles_accepted("Admin", "Staff")
@@ -14,11 +17,9 @@ def staffpage():
     customers = customers.filter(
         Customer.Id.like( q ) |
         Customer.NationalId.like( q ))
-    if q == customers:
-        return render_template("staffpage.html",  q=q, customers = customers)
-    else:
-        # raise ValueError ("wrong cust")
-        return render_template("staffpage.html",  q=q, customers = customers)
+    if q == None:
+       raise MyValidationError("Customer do not exist!")
+    return render_template("staffpage.html",  q=q, customers = customers)
 
 
 @staffBluePrint.route("/logout")

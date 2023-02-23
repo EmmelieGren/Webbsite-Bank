@@ -23,8 +23,10 @@ def StatisticSweden():
     allAccounts = Account.query.count()
     customers = Customer.query.count()
     totalBalance  =  0
-    for x in account:
-        totalBalance += x.Balance 
+    for x in sweden:
+        totalBalance += x.Balance
+    # for x in account:
+    #     totalBalance += x.Balance 
     return render_template("country/sweden.html",customers=customers, allAccounts= allAccounts, totalBalance=totalBalance, sweden=sweden)
 
 

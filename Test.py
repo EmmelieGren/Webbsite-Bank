@@ -138,3 +138,8 @@ class FormsTestCases(unittest.TestCase):
             s = response.data.decode("utf-8") 
             ok = 'Value has to be larger then zero!' in s
             self.assertTrue(ok)
+
+
+
+if name =="main":
+    unittest.main()
