@@ -11,7 +11,7 @@ Transaction List
 <br>
 <br>
 <h2>Transactions for {{ account.AccountType }} Account: {{ account.Id }}</h2><br>
-<h2>Balance: {{account.Balance}}</h2><br>
+<h2>Balance: {{account.Balance}} USD</h2><br>
 
 <table class="table">
 <thead>
@@ -28,9 +28,9 @@ Transaction List
         <td>{{ t.Id }}</td> 
         <td>{{ t.Date }}</td>
         <td>{{ t.Operation }}</td>
-        <td>{{ t.Amount }}</td>
+        <td>{{ t.Amount }} USD</td>
         <td>{{ t.Type }}</td> 
-        <td>{{ t.NewBalance}}</td>
+        <td>{{ t.NewBalance}} USD</td>
     </tr>
     {%  endfor  %}
 </tbody>
