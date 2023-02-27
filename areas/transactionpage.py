@@ -7,8 +7,8 @@ from .services import getTransactions, getAccounts, getCustomers, getDate
 transactionBluePrint = Blueprint('transactionpage', __name__)
 
 @transactionBluePrint.route("/customer/account/withdraw/<id>", methods=['GET', 'POST'])
-# @auth_required()
-# @roles_accepted("Admin","Staff")
+@auth_required()
+@roles_accepted("Admin","Staff")
 def Withdraw(id):
     form =TransactionForm()                               
     account = getAccounts(id)
@@ -39,8 +39,8 @@ def Withdraw(id):
 
 
 @transactionBluePrint.route("/customer/account/deposit/<id>", methods=['GET', 'POST'])
-# @auth_required()
-# @roles_accepted("Admin","Staff")
+@auth_required()
+@roles_accepted("Admin","Staff")
 def Deposit(id):
     form =TransactionForm()                               
     account = getAccounts(id)
@@ -64,8 +64,8 @@ def Deposit(id):
 
 
 @transactionBluePrint.route("/customer/account/transfer/<id>", methods=['GET', 'POST'])
-# @auth_required()
-# @roles_accepted("Admin","Staff")
+@auth_required()
+@roles_accepted("Admin","Staff")
 def Transfer(id):
     form =TransferForm()
     account = getAccounts(id)

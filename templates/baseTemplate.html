@@ -49,20 +49,19 @@
                         <i class="bx bx-landscape"></i>
                         Log in</a>
                 </li> 
-                <!-- {% endif %}
-                {% if current_user.is_authenticated %} -->
+                {% endif %}
+                {% if current_user.is_authenticated %}
                 <li class="sidenav__list-item">
                     <a href="/logout">
                         <i class="bx bx-landscape"></i>
                         Logout {{ current_user.email }}</a>
                 </li>
-                
                 <li class="sidenav__list-item">
                     <a href="/staffpage">
                         <i class="bx bx-landscape"></i>
-                        search Customer</a>
+                        Search Customer</a>
                 </li>
-                <!-- {% endif %} -->
+                {% endif %}
 
                </ul> 
           </aside>        

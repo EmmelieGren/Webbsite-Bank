@@ -8,8 +8,8 @@ class MyValidationError(Exception):
     pass
 
 @staffBluePrint.route("/staffpage")
-# @auth_required()
-# @roles_accepted("Admin", "Staff")
+@auth_required()
+@roles_accepted("Admin", "Staff")
 def staffpage():
     q = request.args.get('q', '')
     errorCustomer = [' Customer do not exist! ']
