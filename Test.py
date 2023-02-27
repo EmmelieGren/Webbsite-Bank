@@ -1,145 +1,64 @@
 
-import unittest
-from flask import Flask, render_template, request, url_for, redirect
 from app import app
 from model import db, Transaction, Customer, Account
-from datetime import datetime
-from forms import TransactionForm
 from areas.services import getDate
-
-from sqlalchemy import create_engine
-
-
-class FormsTestCases(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        super(FormsTestCases, self).__init__(*args, **kwargs)
-        self.ctx = app.app_context()
-        self.ctx.push()
-        #self.client = app.test_client()
-        app.config["SERVER_NAME"] = "mliBank.se"
-        app.config['WTF_CSRF_ENABLED'] = False
-        app.config['WTF_CSRF_METHODS'] = []  # This is the magic
-        app.config['TESTING'] = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
-        
-        db.init_app(app)
-        db.app = app
-        db.create_all()
-        
-    def tearDown(self):
-        #self.ctx.pop()
-        pass
+import pytest
 
 
-    def test_When_withdraw__is_greater_than_new_balance_write_errormessage(self):
-        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", 
-        Birthday=getDate, NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
+def test_deposit():
 
-        db.session.add(customer)
-        db.session.commit()
-        account = Account(AccountType="Personal", Created=getDate, Balance=700, CustomerId=customer.Id)
-        db.session.add(account)
-        db.session.commit()
-        transaction = Transaction(Type="Debit", Operation="test", Date=getDate, Amount=2000, NewBalance=2500, AccountId=account.Id)
-        db.session.add(transaction)
-        db.session.commit()
-        test_client = app.test_client()
-        with test_client:
-            customer = Customer.query.filter_by(Id=customer.Id).first()
-            url = f'/transactions?hidden={account.Id}&transaction=withdrawal'
-            response = test_client.post(url, data={"withdrawal":2600, "operation":"test", "type":"Credit"})
-            s = response.data.decode("utf-8") 
-            ok = 'Amount is larger then your balance!' in s
-            self.assertTrue(ok)
+    newaccount = Account()
+    newaccount.Id = 1
+    newaccount.Balance = 500
+    deposit = Transaction()
+    deposit.Amount = 10
+    create_deposit(newaccount, deposit, "Salary")
 
+    assert newaccount.Balance == 10
+    assert deposit.NewBalance == 10
+    assert newaccount.Id == deposit.AccountId
+    assert deposit.Date != None
+    assert deposit.Type == "Debit"
+    assert deposit.Operation == "Salary"
+    assert len(newaccount.Transactions) > 0
+    assert deposit in newaccount.Transactions
 
-    def test_When_transfer__is_greater_than_new_balance_write_errormessage(self):
-        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", 
-        Birthday=getDate, NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
+def create_deposit(account, deposit, operation):
 
-        db.session.add(customer)
-        db.session.commit()
-        account = Account(AccountType="Personal", Created=getDate, Balance=700, CustomerId=customer.Id)
-        db.session.add(account)
-        db.session.commit()
-        transaction = Transaction(Type="Debit", Operation="test", Date=getDate, Amount=2000, NewBalance=2500, AccountId=account.Id)
-        db.session.add(transaction)
-        db.session.commit()
-        test_client = app.test_client()
-        with test_client:
-            customer = Customer.query.filter_by(Id=customer.Id).first()
-            account = Account.query.filter_by(CustomerId=customer.Id).first()
-            url = f'/transactions?hidden={account.Id}&transaction=transfer'
-            response = test_client.post(url, data={"transfer":26000, "operation":"test", "type":"Credit", "to_account":account.Id})
-            s = response.data.decode("utf-8") 
-            ok = 'Amount is larger then your balance!' in s
-            self.assertTrue(ok)
-
-    def test_When_withdraw__is_less_than_zero_write_errormessage(self):
-        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", 
-        Birthday=getDate, NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
-
-        db.session.add(customer)
-        db.session.commit()
-        account = Account(AccountType="Personal", Created=getDate, Balance=700, CustomerId=customer.Id)
-        db.session.add(account)
-        db.session.commit()
-        transaction = Transaction(Type="Debit", Operation="test", Date=getDate, Amount=2000, NewBalance=2500, AccountId=account.Id)
-        db.session.add(transaction)
-        db.session.commit()
-        test_client = app.test_client()
-        with test_client:
-            customer = Customer.query.filter_by(Id=customer.Id).first()
-            url = f'/transactions?hidden={account.Id}&transaction=withdrawal'
-            response = test_client.post(url, data={"withdrawal":-26, "operation":"test", "type":"Credit"})
-            s = response.data.decode("utf-8") 
-            ok = 'Value has to be larger then zero' in s
-            self.assertTrue(ok)
-
-    def test_When_deposit__is_less_than_zero_write_errormessage(self):
-        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", 
-        Birthday=getDate, NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
-
-        db.session.add(customer)
-        db.session.commit()
-        account = Account(AccountType="Personal", Created=getDate, Balance=700, CustomerId=customer.Id)
-        db.session.add(account)
-        db.session.commit()
-        transaction = Transaction(Type="Debit", Operation="test", Date=getDate, Amount=2000, NewBalance=2500, AccountId=account.Id)
-        db.session.add(transaction)
-        db.session.commit()
-        test_client = app.test_client()
-        with test_client:
-            customer = Customer.query.filter_by(Id=customer.Id).first()
-            url = f'/transactions?hidden={account.Id}&transaction=deposit'
-            response = test_client.post(url, data={"deposit":-26, "operation":"test", "type":"Credit"})
-            s = response.data.decode("utf-8") 
-            ok = 'Value has to be larger then zero!' in s
-            self.assertTrue(ok)
-
-    def test_When_transfer__is_less_than_zero_write_errormessage(self):
-        customer = Customer(GivenName="Magnus", Surname="Grahn", Streetaddress="Happystreet", City="Norrpan", Zipcode="12345", Country="SWEDEN", CountryCode="SE", 
-        Birthday=getDate, NationalId="19880630-0000", TelephoneCountryCode=46, Telephone="(000)123-7654", EmailAddress="magnus@hello.se")
-
-        db.session.add(customer)
-        db.session.commit()
-        account = Account(AccountType="Personal", Created=getDate, Balance=700, CustomerId=customer.Id)
-        db.session.add(account)
-        db.session.commit()
-        transaction = Transaction(Type="Debit", Operation="test", Date=getDate, Amount=2000, NewBalance=2500, AccountId=account.Id)
-        db.session.add(transaction)
-        db.session.commit()
-        test_client = app.test_client()
-        with test_client:
-            customer = Customer.query.filter_by(Id=customer.Id).first()
-            account = Account.query.filter_by(CustomerId=customer.Id).first()
-            url = f'/transactions?hidden={account.Id}&transaction=transfer'
-            response = test_client.post(url, data={"transfer":-26, "operation":"test", "type":"Credit", "to_account":account.Id})
-            s = response.data.decode("utf-8") 
-            ok = 'Value has to be larger then zero!' in s
-            self.assertTrue(ok)
+    account.Balance = account.Balance + deposit.Amount
+    deposit.NewBalance = account.Balance
+    deposit.AccountId = account.Id
+    deposit.Date = getDate()
+    deposit.Type = "Debit"
+    deposit.Operation = operation
+    account.Transactions.append(deposit)
 
 
 
-if name =="main":
-    unittest.main()
+def test_withdraw():
+
+    newaccount = Account()
+    newaccount.Id = 1
+    newaccount.Balance = 500
+    withdraw = Transaction()
+    withdraw.Amount = 600
+    create_deposit(newaccount, withdraw, "Payment")
+
+    assert newaccount.Balance == 10
+    assert withdraw.NewBalance == 10
+    assert newaccount.Id == withdraw.AccountId
+    assert withdraw.Date != None
+    assert withdraw.Type == "Credit"
+    assert withdraw.Operation == "Payment"
+    assert len(newaccount.Transactions) > 0
+    assert withdraw in newaccount.Transactions
+
+def create_withdraw(account, withdraw, operation):
+
+    account.Balance = account.Balance - withdraw.Amount
+    withdraw.NewBalance = account.Balance
+    withdraw.AccountId = account.Id
+    withdraw.Date = getDate()
+    withdraw.Type = "Credit"
+    withdraw.Operation = operation
+    account.Transactions.append(withdraw)

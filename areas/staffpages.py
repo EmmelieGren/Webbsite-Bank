@@ -17,8 +17,8 @@ def staffpage():
     customers = customers.filter(
         Customer.Id.like( q ) |
         Customer.NationalId.like( q ))
-    if q == None:
-       raise MyValidationError("Customer do not exist!")
+    #if customers
+     #  raise MyValidationError("Customer do not exist!")
     return render_template("staffpage.html",  q=q, customers = customers)
 
 
