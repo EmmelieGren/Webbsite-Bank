@@ -9,8 +9,8 @@ from .services import getAccounts, getCustomers, getDate
 customerBluePrint = Blueprint('customerpage', __name__)
 
 @customerBluePrint.route('/customer/<id>')
-@auth_required()
-@roles_accepted("Admin","Staff")
+# @auth_required()
+# @roles_accepted("Admin","Staff")
 def customerpage(id):
     customer = getCustomers(id)
     summa  =  0
@@ -19,8 +19,8 @@ def customerpage(id):
     return render_template("customerpages/customer.html", customer=customer, summa=summa)
 
 @customerBluePrint.route('/customer/account/<id>')
-@auth_required()
-@roles_accepted("Admin","Staff")
+# @auth_required()
+# @roles_accepted("Admin","Staff")
 def Transaktioner(id):
     page = int(request.args.get('page', 1))
     account = getAccounts(id)
@@ -35,8 +35,8 @@ def Transaktioner(id):
                             page=page,)
 
 @customerBluePrint.route("/customers")
-@auth_required()
-@roles_accepted("Admin","Staff")
+# @auth_required()
+# @roles_accepted("Admin","Staff")
 def customersPage():
     sortColumn = request.args.get('sortColumn', 'name')
     sortOrder = request.args.get('sortOrder', 'asc')
@@ -76,8 +76,8 @@ def customersPage():
                             )
 
 @customerBluePrint.route("/editcustomer/<id>", methods=['GET', 'POST'])
-@auth_required()
-@roles_accepted("Admin")
+# @auth_required()
+# @roles_accepted("Admin")
 def editcustomer(id):
     customer = getCustomers(id)
     form = NewCustomerForm()
@@ -113,8 +113,8 @@ def editcustomer(id):
 
 
 @customerBluePrint.route("/newcustomer", methods=['GET', 'POST'])
-@auth_required()
-@roles_accepted("Admin")
+# @auth_required()
+# @roles_accepted("Admin")
 def newcustomer():
     form = NewCustomerForm()
     if form.validate_on_submit():
@@ -144,8 +144,8 @@ def newcustomer():
 
 
 @customerBluePrint.route("/newaccount/<id>", methods=['GET', 'POST'])
-@auth_required()
-@roles_accepted("Admin","Staff")
+# @auth_required()
+# @roles_accepted("Admin","Staff")
 def newaccount(id):
     account = getAccounts(id)
     customer = getCustomers(id)
