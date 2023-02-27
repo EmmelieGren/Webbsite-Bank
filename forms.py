@@ -12,8 +12,8 @@ def stringContains(form, field):
         raise ValidationError('Can not be Numbers')
 
 class NewCustomerForm(FlaskForm):
-    givenName = StringField('givenname', validators=[validators.DataRequired()])
-    surname = StringField('surname', validators=[validators.DataRequired()])
+    givenName = StringField('givenname', validators=[validators.DataRequired(), validators.Length(max= 50)])
+    surname = StringField('surname', validators=[validators.DataRequired(), validators.Length(max= 50)])
     streetaddress = StringField('streetaddress', validators=[validators.DataRequired()])
     city = StringField('city', validators=[validators.DataRequired()])
     zipcode = IntegerField('zipcode', validators=[validators.DataRequired()])
