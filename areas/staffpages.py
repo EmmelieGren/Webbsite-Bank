@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, render_template, redirect, request, flash
 from flask_security import roles_accepted, auth_required, logout_user
 from model import db, Customer
 
@@ -12,13 +12,13 @@ class MyValidationError(Exception):
 @roles_accepted("Admin", "Staff")
 def staffpage():
     q = request.args.get('q', '')
-    errorCustomer = [' Customer do not exist! ']
     customers = Customer.query
     customers = customers.filter(
         Customer.Id.like( q ) |
         Customer.NationalId.like( q ))
-    #if customers
-     #  raise MyValidationError("Customer do not exist!")
+    if customers == None:
+        error = 'Invalid credentials'
+        # flash ('Customer does not exisit')
     return render_template("staffpage.html",  q=q, customers = customers)
 
 

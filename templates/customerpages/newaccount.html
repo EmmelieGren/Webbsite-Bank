@@ -9,17 +9,11 @@ New account
 {{ formen[field].label }}: {{ ', '.join(errors) }}
 {% endfor %}
 
-<form class="form-control" method="post">
-    <table class="table">
+<form class="form-control-login" method="post">
     {{ formen.csrf_token }}
     <h2>New Account</h2>
-    <tbody>
-        <tr>
-            <td>Account type:</td>
-            <td class="custom-select">{{ formen.AccountType }}</td>
-        </tr>
-    </tbody>
-    </table>
+    <p>Account type:</p>
+    <p class="custom-select">{{ formen.AccountType }}</p>
     <br>
     <input class="input" type="submit" value="Save">
 </form>
