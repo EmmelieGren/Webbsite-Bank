@@ -31,20 +31,13 @@ db.init_app(app)
 migrate = Migrate(app,db)
 
 
-
 fsqla.FsModels.set_db_info(db)
-
 class Role(db.Model, fsqla.FsRoleMixin):
     pass
-
 class User(db.Model, fsqla.FsUserMixin):
     pass
-
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-
 app.security = Security(app, user_datastore)
-
-
 
 
 app.register_blueprint(customerBluePrint)

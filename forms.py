@@ -3,7 +3,7 @@ from wtforms import Form, BooleanField, StringField, PasswordField, validators, 
 from wtforms.fields import IntegerField, SelectField, DateField, DecimalField, EmailField
 
 def emailContains(form, field):
-    if not field.data.endswith('.com'):
+    if not field.data.endswith('.se'):
         raise ValidationError('Have to end with ex: .se')
 
 
