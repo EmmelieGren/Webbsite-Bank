@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import Form, BooleanField, StringField, PasswordField, validators, ValidationError
+from wtforms import StringField, validators
 from wtforms.fields import IntegerField, SelectField, DateField, DecimalField, EmailField
 
 class NewCustomerForm(FlaskForm):

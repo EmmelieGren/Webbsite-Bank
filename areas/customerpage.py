@@ -117,30 +117,37 @@ def editcustomer(id):
 @roles_accepted("Admin")
 def newcustomer():
     form = NewCustomerForm()
+    customersame = Customer.query.filter_by(NationalId = form.nationalId.data).first()
+    errorSame = [' National-Id is already in our system! ']
+
     if form.validate_on_submit():
         customer = Customer()
-        customer.GivenName = form.givenName.data
-        customer.Surname = form.surname.data
-        customer.Streetaddress = form.streetaddress.data
-        customer.City = form.city.data
-        customer.Zipcode = form.zipcode.data
-        customer.Country = form.country.data
-        customer.CountryCode = form.countryCode.data
-        customer.Birthday = form.birthday.data
-        customer.NationalId = form.nationalId.data
-        customer.TelephoneCountryCode = form.telephoneCountryCode.data
-        customer.Telephone = form.telephone.data
-        customer.EmailAddress = form.emailAddress.data
-        newaccount = Account()
-        newaccount.AccountType = "Checking"
-        newaccount.Created = getDate()
-        newaccount.Balance = 0
-        customer.Accounts = [newaccount]
+        if customersame.NationalId == form.nationalId.data:
+            form.nationalId.errors = form.nationalId.errors + errorSame
+        else:
+            customer.NationalId = form.nationalId.data
+            customer.GivenName = form.givenName.data
+            customer.Surname = form.surname.data
+            customer.Streetaddress = form.streetaddress.data
+            customer.City = form.city.data
+            customer.Zipcode = form.zipcode.data
+            customer.Country = form.country.data
+            customer.CountryCode = form.countryCode.data
+            customer.Birthday = form.birthday.data
+            customer.NationalId = form.nationalId.data
+            customer.TelephoneCountryCode = form.telephoneCountryCode.data
+            customer.Telephone = form.telephone.data
+            customer.EmailAddress = form.emailAddress.data
+            newaccount = Account()
+            newaccount.AccountType = "Checking"
+            newaccount.Created = getDate()
+            newaccount.Balance = 0
+            customer.Accounts = [newaccount]
 
-        db.session.add(customer)
-        db.session.commit()
-        return redirect("/customer/"+ str(customer.Id) )
-    return render_template("customerpages/newcustomer.html", formen=form )
+            db.session.add(customer)
+            db.session.commit()
+            return redirect("/customer/"+ str(customer.Id) )
+    return render_template("customerpages/newcustomer.html", formen=form, customersame=customersame )
 
 
 @customerBluePrint.route("/newaccount/<id>", methods=['GET', 'POST'])
