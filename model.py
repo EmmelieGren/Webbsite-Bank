@@ -4,22 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime  
 from datetime import timedelta  
 from flask_security import hash_password
-from flask_security import Security, SQLAlchemyUserDatastore, auth_required, hash_password
 from flask_security.models import fsqla_v3 as fsqla
 
 db = SQLAlchemy()
-
-# fsqla.FsModels.set_db_info(db)
-
-# class Role(db.Model, fsqla.FsRoleMixin):
-#     pass
-
-# class User(db.Model, fsqla.FsUserMixin):
-#     pass
-
-# user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-
-
 
 class Customer(db.Model):
     __tablename__= "Customers"
@@ -47,7 +34,6 @@ class Account(db.Model):
     Transactions = db.relationship('Transaction', backref='Account', lazy=True)
     CustomerId = db.Column(db.Integer, db.ForeignKey('Customers.Id'), nullable=False)
 
-
 class Transaction(db.Model):
     __tablename__= "Transactions"
     Id = db.Column(db.Integer, primary_key=True)
@@ -58,10 +44,7 @@ class Transaction(db.Model):
     NewBalance = db.Column(db.Integer, unique=False, nullable=False)
     AccountId = db.Column(db.Integer, db.ForeignKey('Accounts.Id'), nullable=False)
 
-
-
 def seedData(app,db):
-    # app.security = Security(app, user_datastore)
     app.security.datastore.db.create_all()
     if not app.security.datastore.find_role("Admin"):
         app.security.datastore.create_role(name="Admin")

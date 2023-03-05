@@ -1,8 +1,7 @@
 
 from app import app
-from model import db, Transaction, Customer, Account
+from model import db, Transaction, Account
 from areas.services import getDate
-import pytest
 
 
 def test_deposit():

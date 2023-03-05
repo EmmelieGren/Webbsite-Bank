@@ -50,5 +50,5 @@ if __name__  == "__main__":
     with app.app_context():
         upgrade()
         seedData(app,db)
-        app.run()
+        app.run(debug=True)
 
