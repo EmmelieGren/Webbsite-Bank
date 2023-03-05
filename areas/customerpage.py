@@ -117,14 +117,8 @@ def editcustomer(id):
 @roles_accepted("Admin")
 def newcustomer():
     form = NewCustomerForm()
-    customersame = Customer.query.filter_by(NationalId = form.nationalId.data).first()
-    errorSame = [' National-Id is already in our system! ']
-
     if form.validate_on_submit():
-        customer = Customer()
-        if customersame.NationalId == form.nationalId.data:
-            form.nationalId.errors = form.nationalId.errors + errorSame
-        else:
+            customer = Customer()
             customer.NationalId = form.nationalId.data
             customer.GivenName = form.givenName.data
             customer.Surname = form.surname.data
@@ -147,7 +141,7 @@ def newcustomer():
             db.session.add(customer)
             db.session.commit()
             return redirect("/customer/"+ str(customer.Id) )
-    return render_template("customerpages/newcustomer.html", formen=form, customersame=customersame )
+    return render_template("customerpages/newcustomer.html", formen=form)
 
 
 @customerBluePrint.route("/newaccount/<id>", methods=['GET', 'POST'])
