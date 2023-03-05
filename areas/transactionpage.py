@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect
 from flask_security import roles_accepted, auth_required
-from model import db, Customer, Account, Transaction
+from model import db, Account, Transaction
 from forms import TransactionForm, TransferForm
 from .services import getTransactions, getAccounts, getCustomers, getDate
 

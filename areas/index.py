@@ -32,6 +32,15 @@ def StatisticSweden():
 
 @indexBluePrint.route("/norway")
 def StatisticNorway():
+        # account = Account.query.filter(Account.Balance)
+    # sweden = Customer.query.filter_by(Customer.TelephoneCountryCode=="47"()) 
+    # allAccounts = Account.query.count()
+    # customers = Customer.query.count()
+    # totalBalance  =  0
+    # for x in sweden:
+    #     totalBalance += x.Balance
+    # # for x in account:
+    # #     totalBalance += x.Balance 
     return render_template("country/norway.html" )
 
 @indexBluePrint.route("/us")

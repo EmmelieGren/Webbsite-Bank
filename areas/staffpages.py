@@ -1,11 +1,8 @@
-from flask import Blueprint, render_template, redirect, request, flash
+from flask import Blueprint, render_template, redirect, request
 from flask_security import roles_accepted, auth_required, logout_user
 from model import db, Customer
 
 staffBluePrint = Blueprint('staffpages', __name__)
-
-class MyValidationError(Exception):
-    pass
 
 @staffBluePrint.route("/staffpage")
 @auth_required()
